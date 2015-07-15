@@ -11,21 +11,32 @@ import UIKit
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet weak var tableView: UITableView!
-    let myItems: NSMutableArray = ["ワンピース", "BREACH", "鋼の錬金術師"]
+    var one = myItemsData(ptitlename: "ワンピース", pnum: 78)
+    var two = myItemsData(ptitlename: "BREACH", pnum: 33)
+    var three = myItemsData(ptitlename: "鋼の錬金術師", pnum: 9)
+    var myItems: NSMutableArray = []
+    
+    var selectNum : Int = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        myItems.addObject(one)
+        myItems.addObject(two)
+        myItems.addObject(three)
     }
     
+    // テーブルを追加する
     @IBAction func tapAdd(sender: AnyObject) {
         // myItemsに追加.
-        myItems.addObject("タイトルを入力")
-        
+        var newItem = myItemsData(ptitlename: "タイトルを入力", pnum: 0)
+        myItems.addObject(newItem)
+
         // TableViewを再読み込み.
         tableView.reloadData()
     }
     
+    // 編集モードにする
     @IBAction func tapEdit(sender: AnyObject) {
         if editing {
             super.setEditing(false, animated: true)
@@ -34,6 +45,16 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             super.setEditing(true, animated: true)
             tableView.setEditing(true, animated: true)
         }
+    }
+    
+    // 巻数追加ボタン
+    @IBAction func tapNumAdd(sender: AnyObject) {
+        // TODO: 選択した行のselectNumの動作がだめ
+        var item :myItemsData = myItems[selectNum] as! myItemsData
+        item.addNum()
+        
+        // TableViewを再読み込み.
+        tableView.reloadData()
     }
     
     // 行数
@@ -47,19 +68,17 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         // tag1を取得
         var titleText = cell.viewWithTag(1) as! UITextField
-        titleText.text = "\(myItems[indexPath.row])"
+        var myItem :myItemsData = myItems[indexPath.row] as! myItemsData
+        titleText.text = myItem.getTitle()
         
         // tag2を取得
-        var num = cell.viewWithTag(2) as! UILabel
-        num.text = "\(indexPath.row)"
+        var num = cell.viewWithTag(2) as! UITextField
+        num.text = myItem.getNum().description
         
-        var addStepper = cell.viewWithTag(4) as! UIStepper
         return cell
     }
 
-    /*
-    Cellを挿入または削除しようとした際に呼び出される
-    */
+    // Cellを挿入または削除しようとした際に呼び出される
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         
         // 削除のとき.
@@ -72,6 +91,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         }
     }
 
+    // セルを選択した時に呼ばれる
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        selectNum = indexPath.row
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -80,3 +104,26 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
 }
 
+// タイトル名と巻数を保持するクラス
+class myItemsData {
+    var titlename:String
+    var num:Int
+    
+    init(ptitlename:String, pnum:Int)
+    {
+        titlename = ptitlename
+        num = pnum
+    }
+    
+    func getTitle() -> String {
+        return titlename
+    }
+    
+    func getNum() -> Int {
+        return num
+    }
+    
+    func addNum() {
+        num++
+    }
+}
