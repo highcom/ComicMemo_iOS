@@ -96,6 +96,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         selectNum = indexPath.row
     }
     
+    // 並べ替えをできるようにする
+    func tableView(tableView: UITableView, moveRowAtIndexPath sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath) {
+        
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -106,8 +111,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
 // タイトル名と巻数を保持するクラス
 class myItemsData {
-    var titlename:String
-    var num:Int
+    private var titlename:String
+    private var num:Int
     
     init(ptitlename:String, pnum:Int)
     {

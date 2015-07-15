@@ -13,6 +13,7 @@
 		B3DDBAA91B52B5220044ED54 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B3DDBAA81B52B5220044ED54 /* Images.xcassets */; };
 		B3DDBAAC1B52B5220044ED54 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = B3DDBAAA1B52B5220044ED54 /* LaunchScreen.xib */; };
 		B3DDBAB81B52B5220044ED54 /* ComicMemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3DDBAB71B52B5220044ED54 /* ComicMemoTests.swift */; };
+		B3E411061B56AAB500A9F16B /* AddCountCustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E411051B56AAB500A9F16B /* AddCountCustomButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +37,7 @@
 		B3DDBAB11B52B5220044ED54 /* ComicMemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ComicMemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3DDBAB61B52B5220044ED54 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B3DDBAB71B52B5220044ED54 /* ComicMemoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComicMemoTests.swift; sourceTree = "<group>"; };
+		B3E411051B56AAB500A9F16B /* AddCountCustomButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddCountCustomButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +80,7 @@
 			isa = PBXGroup;
 			children = (
 				B3DDBAA11B52B5220044ED54 /* AppDelegate.swift */,
+				B3E411051B56AAB500A9F16B /* AddCountCustomButton.swift */,
 				B3DDBAA31B52B5220044ED54 /* ViewController.swift */,
 				B3DDBAA51B52B5220044ED54 /* Main.storyboard */,
 				B3DDBAA81B52B5220044ED54 /* Images.xcassets */,
@@ -212,6 +215,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B3E411061B56AAB500A9F16B /* AddCountCustomButton.swift in Sources */,
 				B3DDBAA41B52B5220044ED54 /* ViewController.swift in Sources */,
 				B3DDBAA21B52B5220044ED54 /* AppDelegate.swift in Sources */,
 			);
@@ -411,6 +415,7 @@
 				B3DDBABD1B52B5220044ED54 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		B3DDBABE1B52B5220044ED54 /* Build configuration list for PBXNativeTarget "ComicMemoTests" */ = {
 			isa = XCConfigurationList;
@@ -419,6 +424,7 @@
 				B3DDBAC01B52B5220044ED54 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
