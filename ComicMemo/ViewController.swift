@@ -94,6 +94,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         }
     }
 
+    func tableView(tableView: UITableView, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath) {
+        self.performSegueWithIdentifier("detailViewSegue", sender: nil)
+    }
+    
     // 並べ替えをできるようにする
     func tableView(tableView: UITableView, moveRowAtIndexPath sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath) {
         
@@ -104,7 +108,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         // Dispose of any resources that can be recreated.
     }
 
-
+    @IBAction func returnMenu(segue: UIStoryboardSegue) {
+        
+    }
+    
 }
 
 // タイトル名と巻数を保持するクラス
