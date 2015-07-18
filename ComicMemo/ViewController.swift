@@ -16,8 +16,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     var three = myItemsData(ptitlename: "鋼の錬金術師", pnum: 9)
     var myItems: NSMutableArray = []
     
-    var selectNum : Int = 0
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -49,8 +47,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     // 巻数追加ボタン
     @IBAction func tapNumAdd(sender: AnyObject) {
-        // TODO: 選択した行のselectNumの動作がだめ
-        var item :myItemsData = myItems[selectNum] as! myItemsData
+        // タップされたボタンのtableviewの選択行を取得
+        var btn = sender as! UIButton
+        var cell = btn.superview?.superview as! UITableViewCell
+        var row = tableView.indexPathForCell(cell)?.row
+
+        // 選択行に対するデータを取得
+        var item :myItemsData = myItems[row!] as! myItemsData
         item.addNum()
         
         // TableViewを再読み込み.
@@ -91,11 +94,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         }
     }
 
-    // セルを選択した時に呼ばれる
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        selectNum = indexPath.row
-    }
-    
     // 並べ替えをできるようにする
     func tableView(tableView: UITableView, moveRowAtIndexPath sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath) {
         
@@ -114,20 +112,24 @@ class myItemsData {
     private var titlename:String
     private var num:Int
     
+    // コンストラクタ
     init(ptitlename:String, pnum:Int)
     {
         titlename = ptitlename
         num = pnum
     }
     
+    // タイトル名を取得
     func getTitle() -> String {
         return titlename
     }
     
+    // 巻数を取得
     func getNum() -> Int {
         return num
     }
     
+    // 巻数を追加
     func addNum() {
         num++
     }
