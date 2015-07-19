@@ -125,9 +125,14 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                 <items>
                                     <navigationItem title="詳細" id="tA0-YL-LMB">
-                                        <barButtonItem key="leftBarButtonItem" title="戻る" id="BDu-yI-P1f">
+                                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="7lZ-dp-RIF">
                                             <connections>
-                                                <segue destination="TCd-ao-FCW" kind="unwind" unwindAction="returnMenu:" id="WkM-Tp-tms"/>
+                                                <segue destination="TCd-ao-FCW" kind="unwind" unwindAction="returnMenu:" id="uor-Lj-gZG"/>
+                                            </connections>
+                                        </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="x0L-Lf-8J8">
+                                            <connections>
+                                                <segue destination="TCd-ao-FCW" kind="unwind" unwindAction="returnMenu:" id="paL-D8-Dbn"/>
                                             </connections>
                                         </barButtonItem>
                                     </navigationItem>
@@ -166,19 +171,30 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="メモ" translatesAutoresizingMaskIntoConstraints="NO" id="sLO-7b-vXA">
-                                <rect key="frame" x="16" y="172" width="343" height="400"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sLO-7b-vXA" customClass="PlaceHolderTextView" customModule="ComicMemo" customModuleProvider="target">
+                                <rect key="frame" x="16" y="210" width="343" height="362"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vkS-mA-pNb">
+                                <rect key="frame" x="102" y="172" width="40" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="巻数" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VAo-QH-iCR">
+                                <rect key="frame" x="60" y="176" width="34" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
-                        <outlet property="memoTextView" destination="sLO-7b-vXA" id="37C-X2-KOO"/>
+                        <outlet property="memoTextView" destination="sLO-7b-vXA" id="v9I-o7-f6B"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PZc-tD-VyH" userLabel="First Responder" sceneMemberID="firstResponder"/>

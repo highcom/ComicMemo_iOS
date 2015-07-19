@@ -10,12 +10,14 @@ import UIKit
 
 class DetailViewController: UIViewController {
 
-    @IBOutlet weak var memoTextView: UITextView!
+    @IBOutlet weak var memoTextView: PlaceHolderTextView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         memoTextView.layer.borderWidth = 0.5
         memoTextView.layer.borderColor = UIColor.lightGrayColor().CGColor
+        memoTextView.layer.cornerRadius = 5
+        memoTextView.placeHolder = "メモを入力"
         // Do any additional setup after loading the view.
     }
 
