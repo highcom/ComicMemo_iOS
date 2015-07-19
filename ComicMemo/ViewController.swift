@@ -70,12 +70,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         var cell = tableView.dequeueReusableCellWithIdentifier("memoCell") as! UITableViewCell
         
         // tag1を取得
-        var titleText = cell.viewWithTag(1) as! UITextField
+        var titleText = cell.viewWithTag(1) as! UILabel
         var myItem :myItemsData = myItems[indexPath.row] as! myItemsData
         titleText.text = myItem.getTitle()
         
         // tag2を取得
-        var num = cell.viewWithTag(2) as! UITextField
+        var num = cell.viewWithTag(3) as! UILabel
         num.text = myItem.getNum().description
         
         return cell
@@ -94,6 +94,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         }
     }
 
+    // 詳細画面へ遷移する
     func tableView(tableView: UITableView, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath) {
         self.performSegueWithIdentifier("detailViewSegue", sender: nil)
     }
@@ -103,12 +104,23 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
     }
     
+    // テキストが変更される毎に呼ばれる
+    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+        println(searchText)
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
 
-    @IBAction func returnMenu(segue: UIStoryboardSegue) {
+    // 詳細画面のキャンセルボタン
+    @IBAction func cancelButton(segue: UIStoryboardSegue) {
+        
+    }
+    
+    // 詳細画面の完了ボタン
+    @IBAction func doneButton(segue: UIStoryboardSegue) {
         
     }
     

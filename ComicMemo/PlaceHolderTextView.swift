@@ -51,7 +51,7 @@ public class PlaceHolderTextView: UITextView {
         
         self.sendSubviewToBack(placeHolderLabel)
         
-        if(self.text.lengthOfBytesUsingEncoding(NSStringEncoding.allZeros) == 0 && self.placeHolder.length > 0){
+        if(self.text.lengthOfBytesUsingEncoding(NSASCIIStringEncoding) == 0 && self.placeHolder.length > 0){
             self.viewWithTag(999)?.alpha = 1
         }
         
