@@ -17,6 +17,7 @@
 		B3E8613C1B5A7ECD009306F8 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E8613B1B5A7ECD009306F8 /* DetailViewController.swift */; };
 		B3ED6BB51B5B9AA9005A4930 /* PlaceHolderTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3ED6BB41B5B9AA9005A4930 /* PlaceHolderTextView.swift */; };
 		B3EDF24E1B5E77D6008E71C8 /* ComicMemoModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B3EDF24C1B5E77D6008E71C8 /* ComicMemoModel.xcdatamodeld */; };
+		B3EDF2811B5E99C0008E71C8 /* Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3EDF2801B5E99C0008E71C8 /* Entity.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +45,7 @@
 		B3E8613B1B5A7ECD009306F8 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		B3ED6BB41B5B9AA9005A4930 /* PlaceHolderTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaceHolderTextView.swift; sourceTree = "<group>"; };
 		B3EDF24D1B5E77D6008E71C8 /* ComicMemoModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ComicMemoModel.xcdatamodel; sourceTree = "<group>"; };
+		B3EDF2801B5E99C0008E71C8 /* Entity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Entity.swift; path = ComicMemo/Entity.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +69,7 @@
 		B3DDBA931B52B5220044ED54 = {
 			isa = PBXGroup;
 			children = (
+				B3EDF2801B5E99C0008E71C8 /* Entity.swift */,
 				B3DDBA9E1B52B5220044ED54 /* ComicMemo */,
 				B3DDBAB41B52B5220044ED54 /* ComicMemoTests */,
 				B3DDBA9D1B52B5220044ED54 /* Products */,
@@ -226,6 +229,7 @@
 			files = (
 				B3E411061B56AAB500A9F16B /* AddCountCustomButton.swift in Sources */,
 				B3ED6BB51B5B9AA9005A4930 /* PlaceHolderTextView.swift in Sources */,
+				B3EDF2811B5E99C0008E71C8 /* Entity.swift in Sources */,
 				B3DDBAA41B52B5220044ED54 /* ViewController.swift in Sources */,
 				B3EDF24E1B5E77D6008E71C8 /* ComicMemoModel.xcdatamodeld in Sources */,
 				B3DDBAA21B52B5220044ED54 /* AppDelegate.swift in Sources */,

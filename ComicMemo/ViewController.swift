@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
@@ -32,6 +33,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
         // TableViewを再読み込み.
         tableView.reloadData()
+        
+        // TODO:データ追加処理（仮）
+        writeData()
     }
     
     // 編集モードにする
@@ -43,6 +47,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             super.setEditing(true, animated: true)
             tableView.setEditing(true, animated: true)
         }
+
+        // TODO:データ追加処理（仮）
+        readData()
     }
     
     // 巻数追加ボタン
@@ -124,6 +131,43 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
     }
     
+    // TODO:CoreDataの書き込み
+    func writeData(){
+        // CoreDataへの書き込み処理.
+        let appDel: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let myContext: NSManagedObjectContext = appDel.managedObjectContext!
+        
+        let myEntity: NSEntityDescription! = NSEntityDescription.entityForName("Entity", inManagedObjectContext: myContext)
+        
+        var newData = Entity(entity: myEntity, insertIntoManagedObjectContext: myContext)
+        newData.titleName = "タイトル名"
+        newData.authorName = "作者"
+        newData.publisherName = "出版社"
+        newData.numberOfBooks = 1
+        newData.memo = "メモ"
+        
+        myContext.save(nil)
+    }
+    
+    // TODO:CoreDataからの読み込み
+    func readData(){
+        // CoreDataの読み込み処理.
+        let appDel: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let myContext: NSManagedObjectContext = appDel.managedObjectContext!
+        
+        let myRequest: NSFetchRequest = NSFetchRequest(entityName: "Entity")
+        myRequest.returnsObjectsAsFaults = false
+        
+        var myResults: NSArray! = myContext.executeFetchRequest(myRequest, error: nil)
+        
+        var _myItems: NSMutableArray = []
+        
+        for myData in myResults {
+            _myItems.addObject(myData)
+        }
+//        データを読み込んだらリロード
+//        myTableView.reloadData()
+    }
 }
 
 // タイトル名と巻数を保持するクラス
