@@ -16,6 +16,7 @@
 		B3E411061B56AAB500A9F16B /* AddCountCustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E411051B56AAB500A9F16B /* AddCountCustomButton.swift */; };
 		B3E8613C1B5A7ECD009306F8 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E8613B1B5A7ECD009306F8 /* DetailViewController.swift */; };
 		B3ED6BB51B5B9AA9005A4930 /* PlaceHolderTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3ED6BB41B5B9AA9005A4930 /* PlaceHolderTextView.swift */; };
+		B3EDF24E1B5E77D6008E71C8 /* ComicMemoModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B3EDF24C1B5E77D6008E71C8 /* ComicMemoModel.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +43,7 @@
 		B3E411051B56AAB500A9F16B /* AddCountCustomButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddCountCustomButton.swift; sourceTree = "<group>"; };
 		B3E8613B1B5A7ECD009306F8 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		B3ED6BB41B5B9AA9005A4930 /* PlaceHolderTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaceHolderTextView.swift; sourceTree = "<group>"; };
+		B3EDF24D1B5E77D6008E71C8 /* ComicMemoModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ComicMemoModel.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +90,7 @@
 				B3DDBAA31B52B5220044ED54 /* ViewController.swift */,
 				B3E8613B1B5A7ECD009306F8 /* DetailViewController.swift */,
 				B3DDBAA51B52B5220044ED54 /* Main.storyboard */,
+				B3EDF24C1B5E77D6008E71C8 /* ComicMemoModel.xcdatamodeld */,
 				B3ED6BB41B5B9AA9005A4930 /* PlaceHolderTextView.swift */,
 				B3DDBAA81B52B5220044ED54 /* Images.xcassets */,
 				B3DDBAAA1B52B5220044ED54 /* LaunchScreen.xib */,
@@ -224,6 +227,7 @@
 				B3E411061B56AAB500A9F16B /* AddCountCustomButton.swift in Sources */,
 				B3ED6BB51B5B9AA9005A4930 /* PlaceHolderTextView.swift in Sources */,
 				B3DDBAA41B52B5220044ED54 /* ViewController.swift in Sources */,
+				B3EDF24E1B5E77D6008E71C8 /* ComicMemoModel.xcdatamodeld in Sources */,
 				B3DDBAA21B52B5220044ED54 /* AppDelegate.swift in Sources */,
 				B3E8613C1B5A7ECD009306F8 /* DetailViewController.swift in Sources */,
 			);
@@ -435,6 +439,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		B3EDF24C1B5E77D6008E71C8 /* ComicMemoModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				B3EDF24D1B5E77D6008E71C8 /* ComicMemoModel.xcdatamodel */,
+			);
+			currentVersion = B3EDF24D1B5E77D6008E71C8 /* ComicMemoModel.xcdatamodel */;
+			path = ComicMemoModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = B3DDBA941B52B5220044ED54 /* Project object */;
 }
