@@ -12,17 +12,14 @@ import CoreData
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet weak var tableView: UITableView!
-    var one = myItemsData(ptitlename: "ワンピース", pnum: 78)
-    var two = myItemsData(ptitlename: "BREACH", pnum: 33)
-    var three = myItemsData(ptitlename: "鋼の錬金術師", pnum: 9)
     var myItems: NSMutableArray = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        myItems.addObject(one)
-        myItems.addObject(two)
-        myItems.addObject(three)
+
+        // データ読み込み
+        readMemoData()
     }
     
     // テーブルを追加する
@@ -40,9 +37,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             super.setEditing(true, animated: true)
             tableView.setEditing(true, animated: true)
         }
-
-        // TODO:データ追加処理（仮）
-        readData()
     }
     
     // 巻数追加ボタン
@@ -53,7 +47,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         var row = tableView.indexPathForCell(cell)?.row
 
         // 選択行に対するデータを取得
-        var item :myItemsData = myItems[row!] as! myItemsData
+        var item = myItems[row!] as! ComicMemo.Entity
         item.addNum()
         
         // TableViewを再読み込み.
@@ -68,13 +62,17 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     // セルの設定
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCellWithIdentifier("memoCell") as! UITableViewCell
+        var myItem = myItems[indexPath.row] as! ComicMemo.Entity
         
-        // tag1を取得
+        // tag1(タイトル)を取得
         var titleText = cell.viewWithTag(1) as! UILabel
-        var myItem :myItemsData = myItems[indexPath.row] as! myItemsData
         titleText.text = myItem.getTitle()
         
-        // tag2を取得
+        // tag2(メモ)を取得
+        var memoText = cell.viewWithTag(2) as! UILabel
+        memoText.text = myItem.getMemo()
+        
+        // tag3(巻数)を取得
         var num = cell.viewWithTag(3) as! UILabel
         num.text = myItem.getNum().description
         
@@ -89,23 +87,29 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             // 指定されたセルのオブジェクトをmyItemsから削除する.
             myItems.removeObjectAtIndex(indexPath.row)
             
+            // TODO: CoreDataからもデータを削除する
+            
             // TableViewを再読み込み.
             tableView.reloadData()
         }
     }
 
-    // 詳細画面へ遷移する
+    // infoボタンイベント
     func tableView(tableView: UITableView, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath) {
+        // TODO: 入力されているデータを渡す
+        // 詳細画面へ遷移する
         self.performSegueWithIdentifier("detailViewSegue", sender: nil)
     }
     
     // 並べ替えをできるようにする
     func tableView(tableView: UITableView, moveRowAtIndexPath sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath) {
-        
+        // TODO: 並べ替えたら、その順番でCoreDataに保存する処理
     }
     
-    // テキストが変更される毎に呼ばれる
+    // 検索バー入力イベント
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+        // TODO: 検索バーで入力された文字列をCoreDataから検索
+        // テキストが変更される毎に呼ばれる
         println(searchText)
     }
     
@@ -129,21 +133,18 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         var numberOfBooks = detailData.numberOfBooksField.text.toInt()!
         var memo = detailData.memoTextView.text
         
-        // myItemsに追加.
-        var newItem = myItemsData(ptitlename: "タイトルを入力", pnum: 0)
-        myItems.addObject(newItem)
-        
+        // 詳細画面で入力したデータを追加
+        writeMemoData(titleName, author: authorName, publisher: publisherName, number: numberOfBooks, memo: memo)
+
+        // データの再読込
+        readMemoData()
         // TableViewを再読み込み.
         tableView.reloadData()
-        
-        // TODO:データ追加処理（仮）
-        writeData(titleName, author: authorName, publisher: publisherName, number: numberOfBooks, memo: memo)
-
     }
     
-    // TODO:CoreDataの書き込み
-    func writeData(title: String, author: String, publisher: String, number: Int, memo: String){
-        // CoreDataへの書き込み処理.
+    // CoreDataのへの書き込み
+    func writeMemoData(title: String, author: String, publisher: String, number: Int, memo: String){
+        // CoreDataへの書き込み処理
         let appDel: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let myContext: NSManagedObjectContext = appDel.managedObjectContext!
         
@@ -159,9 +160,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         myContext.save(nil)
     }
     
-    // TODO:CoreDataからの読み込み
-    func readData(){
-        // CoreDataの読み込み処理.
+    // CoreDataからの読み込み
+    func readMemoData(){
+        // CoreDataの読み込み処理
         let appDel: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let myContext: NSManagedObjectContext = appDel.managedObjectContext!
         
@@ -170,40 +171,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         var myResults: NSArray! = myContext.executeFetchRequest(myRequest, error: nil)
         
-        var _myItems: NSMutableArray = []
-        
+        myItems = []
         for myData in myResults {
-            _myItems.addObject(myData)
+            myItems.addObject(myData)
         }
-//        データを読み込んだらリロード
-//        myTableView.reloadData()
-    }
-}
-
-// タイトル名と巻数を保持するクラス
-class myItemsData {
-    private var titlename:String
-    private var num:Int
-    
-    // コンストラクタ
-    init(ptitlename:String, pnum:Int)
-    {
-        titlename = ptitlename
-        num = pnum
-    }
-    
-    // タイトル名を取得
-    func getTitle() -> String {
-        return titlename
-    }
-    
-    // 巻数を取得
-    func getNum() -> Int {
-        return num
-    }
-    
-    // 巻数を追加
-    func addNum() {
-        num++
     }
 }

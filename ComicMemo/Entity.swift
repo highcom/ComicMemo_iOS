@@ -16,5 +16,25 @@ class Entity: NSManagedObject {
     @NSManaged var publisherName: String
     @NSManaged var numberOfBooks: NSNumber
     @NSManaged var memo: String
-
+    
+    // タイトル名を取得
+    func getTitle() -> String {
+        return titleName
+    }
+    
+    // 巻数を取得
+    func getNum() -> Int {
+        return numberOfBooks.integerValue
+    }
+    
+    // メモを取得
+    func getMemo() -> String {
+        return memo
+    }
+    
+    // 巻数を追加
+    func addNum() {
+        var num: NSNumber = numberOfBooks.integerValue + 1
+        numberOfBooks = num
+    }
 }
