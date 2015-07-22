@@ -187,7 +187,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vkS-mA-pNb">
-                                <rect key="frame" x="102" y="188" width="40" height="30"/>
+                                <rect key="frame" x="102" y="188" width="50" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                             </textField>
@@ -209,7 +209,11 @@
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
+                        <outlet property="authorField" destination="EmU-kP-QFW" id="dJB-yj-ZRQ"/>
                         <outlet property="memoTextView" destination="sLO-7b-vXA" id="v9I-o7-f6B"/>
+                        <outlet property="numberOfBooksField" destination="vkS-mA-pNb" id="dYh-Mc-Lia"/>
+                        <outlet property="publisherField" destination="jsi-fn-UBQ" id="eLQ-3p-gHi"/>
+                        <outlet property="titleField" destination="c0Y-ks-yld" id="EFY-VF-28b"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PZc-tD-VyH" userLabel="First Responder" sceneMemberID="firstResponder"/>

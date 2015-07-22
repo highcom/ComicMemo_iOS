@@ -10,6 +10,10 @@ import UIKit
 
 class DetailViewController: UIViewController {
 
+    @IBOutlet weak var titleField: UITextField!
+    @IBOutlet weak var authorField: UITextField!
+    @IBOutlet weak var publisherField: UITextField!
+    @IBOutlet weak var numberOfBooksField: UITextField!
     @IBOutlet weak var memoTextView: PlaceHolderTextView!
     
     override func viewDidLoad() {

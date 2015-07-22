@@ -27,15 +27,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     // テーブルを追加する
     @IBAction func tapAdd(sender: AnyObject) {
-        // myItemsに追加.
-        var newItem = myItemsData(ptitlename: "タイトルを入力", pnum: 0)
-        myItems.addObject(newItem)
-
-        // TableViewを再読み込み.
-        tableView.reloadData()
-        
-        // TODO:データ追加処理（仮）
-        writeData()
+        // データ入力のため詳細画面へ遷移する
+        self.performSegueWithIdentifier("detailViewSegue", sender: nil)
     }
     
     // 編集モードにする
@@ -120,7 +113,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
     // 詳細画面のキャンセルボタン
     @IBAction func cancelButton(segue: UIStoryboardSegue) {
         
@@ -128,11 +121,28 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     // 詳細画面の完了ボタン
     @IBAction func doneButton(segue: UIStoryboardSegue) {
+        let detailData = segue.sourceViewController as! DetailViewController
+        // 詳細画面の入力データを受け取る
+        var titleName = detailData.titleField.text
+        var authorName = detailData.authorField.text
+        var publisherName = detailData.publisherField.text
+        var numberOfBooks = detailData.numberOfBooksField.text.toInt()!
+        var memo = detailData.memoTextView.text
         
+        // myItemsに追加.
+        var newItem = myItemsData(ptitlename: "タイトルを入力", pnum: 0)
+        myItems.addObject(newItem)
+        
+        // TableViewを再読み込み.
+        tableView.reloadData()
+        
+        // TODO:データ追加処理（仮）
+        writeData(titleName, author: authorName, publisher: publisherName, number: numberOfBooks, memo: memo)
+
     }
     
     // TODO:CoreDataの書き込み
-    func writeData(){
+    func writeData(title: String, author: String, publisher: String, number: Int, memo: String){
         // CoreDataへの書き込み処理.
         let appDel: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let myContext: NSManagedObjectContext = appDel.managedObjectContext!
@@ -140,11 +150,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let myEntity: NSEntityDescription! = NSEntityDescription.entityForName("Entity", inManagedObjectContext: myContext)
         
         var newData = Entity(entity: myEntity, insertIntoManagedObjectContext: myContext)
-        newData.titleName = "タイトル名"
-        newData.authorName = "作者"
-        newData.publisherName = "出版社"
-        newData.numberOfBooks = 1
-        newData.memo = "メモ"
+        newData.titleName = title
+        newData.authorName = author
+        newData.publisherName = publisher
+        newData.numberOfBooks = number
+        newData.memo = memo
         
         myContext.save(nil)
     }
