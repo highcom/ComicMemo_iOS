@@ -13,6 +13,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     @IBOutlet weak var tableView: UITableView!
     var myItems: NSMutableArray = []
+    var editRow: Int = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -84,11 +85,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         // 削除のとき.
         if editingStyle == UITableViewCellEditingStyle.Delete {
+            
+            // CoreDataからレコードをを削除する
+            deleteMemoData(myItems[indexPath.row] as! NSManagedObject)
+            
             // 指定されたセルのオブジェクトをmyItemsから削除する.
             myItems.removeObjectAtIndex(indexPath.row)
-            
-            // TODO: CoreDataからもデータを削除する
-            
+ 
             // TableViewを再読み込み.
             tableView.reloadData()
         }
@@ -96,11 +99,26 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
     // infoボタンイベント
     func tableView(tableView: UITableView, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath) {
-        // TODO: 入力されているデータを渡す
+        // 選択されたinfoボタンの行を設定
+        editRow = indexPath.row
         // 詳細画面へ遷移する
         self.performSegueWithIdentifier("detailViewSegue", sender: nil)
     }
     
+    // 画面遷移時に呼ばれる
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if (segue.identifier == "detailViewSegue") {
+            // 選択したテーブルのデータを詳細が画面に渡す
+            var editData = myItems[editRow] as! Entity
+            var newVC = segue.destinationViewController as! DetailViewController
+            newVC.titleName = editData.titleName
+            newVC.authorName = editData.authorName
+            newVC.publisherName = editData.publisherName
+            newVC.numberOfBooks = editData.numberOfBooks.integerValue
+            newVC.memo = editData.memo
+        }
+    }
+
     // 並べ替えをできるようにする
     func tableView(tableView: UITableView, moveRowAtIndexPath sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath) {
         // TODO: 並べ替えたら、その順番でCoreDataに保存する処理
@@ -133,6 +151,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         var numberOfBooks = detailData.numberOfBooksField.text.toInt()!
         var memo = detailData.memoTextView.text
         
+        // TODO: infoボタンを押されて編集の場合はレコードを更新にするよう処理を分ける
+        
         // 詳細画面で入力したデータを追加
         writeMemoData(titleName, author: authorName, publisher: publisherName, number: numberOfBooks, memo: memo)
 
@@ -142,9 +162,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         tableView.reloadData()
     }
     
-    // CoreDataのへの書き込み
-    func writeMemoData(title: String, author: String, publisher: String, number: Int, memo: String){
-        // CoreDataへの書き込み処理
+    // CoreDataへレコードの書き込み
+    func writeMemoData(title: String, author: String, publisher: String, number: Int, memo: String) {
         let appDel: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let myContext: NSManagedObjectContext = appDel.managedObjectContext!
         
@@ -156,13 +175,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         newData.publisherName = publisher
         newData.numberOfBooks = number
         newData.memo = memo
-        
+        // TODO: エラーの処理を書く
         myContext.save(nil)
     }
     
-    // CoreDataからの読み込み
-    func readMemoData(){
-        // CoreDataの読み込み処理
+    // CoreDataからレコードの読み込み
+    func readMemoData() {
         let appDel: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let myContext: NSManagedObjectContext = appDel.managedObjectContext!
         
@@ -175,5 +193,16 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         for myData in myResults {
             myItems.addObject(myData)
         }
+    }
+    
+    // CoreDataのレコードの削除
+    func deleteMemoData(object: NSManagedObject) {
+        // CoreDataの読み込み処理
+        let appDel: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let myContext: NSManagedObjectContext = appDel.managedObjectContext!
+        
+        myContext.deleteObject(object)
+        // TODO: エラーの処理を書く
+        myContext.save(nil)
     }
 }

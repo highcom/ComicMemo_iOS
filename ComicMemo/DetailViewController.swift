@@ -16,13 +16,25 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var numberOfBooksField: UITextField!
     @IBOutlet weak var memoTextView: PlaceHolderTextView!
     
+    var titleName: String = ""
+    var authorName: String = ""
+    var publisherName: String = ""
+    var numberOfBooks: Int = 0
+    var memo: String = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        // Do any additional setup after loading the view.
         memoTextView.layer.borderWidth = 0.5
         memoTextView.layer.borderColor = UIColor.lightGrayColor().CGColor
         memoTextView.layer.cornerRadius = 5
         memoTextView.placeHolder = "メモを入力"
-        // Do any additional setup after loading the view.
+        // 編集の場合は前の画面から値が渡されている
+        titleField.text = titleName
+        authorField.text = authorName
+        publisherField.text = publisherName
+        numberOfBooksField.text = numberOfBooks.description
+        memoTextView.text = memo
     }
 
     override func didReceiveMemoryWarning() {
