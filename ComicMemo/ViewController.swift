@@ -15,6 +15,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     var myItems: NSMutableArray = []
     var editRow: Int = 0
     
+    // 画面遷移時の状態
+    var state = STATE.ST_NONE
+    enum STATE {
+        case ST_NONE
+        case ST_ADD
+        case ST_EDIT
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -25,6 +33,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     // テーブルを追加する
     @IBAction func tapAdd(sender: AnyObject) {
+        // ステートを追加状態にする
+        state = STATE.ST_ADD
         // データ入力のため詳細画面へ遷移する
         self.performSegueWithIdentifier("detailViewSegue", sender: nil)
     }
@@ -99,6 +109,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
     // infoボタンイベント
     func tableView(tableView: UITableView, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath) {
+        // ステートを編集にする
+        state = STATE.ST_EDIT
         // 選択されたinfoボタンの行を設定
         editRow = indexPath.row
         // 詳細画面へ遷移する
@@ -107,7 +119,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     // 画面遷移時に呼ばれる
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if (segue.identifier == "detailViewSegue") {
+        // 編集時にテーブルのデータを詳細画面に渡す
+        if segue.identifier == "detailViewSegue" && state == STATE.ST_EDIT {
             // 選択したテーブルのデータを詳細が画面に渡す
             var editData = myItems[editRow] as! Entity
             var newVC = segue.destinationViewController as! DetailViewController
@@ -138,7 +151,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     // 詳細画面のキャンセルボタン
     @IBAction func cancelButton(segue: UIStoryboardSegue) {
-        
+        // ステートを初期状態に戻す
+        state = STATE.ST_NONE
     }
     
     // 詳細画面の完了ボタン
@@ -152,10 +166,18 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         var memo = detailData.memoTextView.text
         
         // TODO: infoボタンを押されて編集の場合はレコードを更新にするよう処理を分ける
+        if state == STATE.ST_ADD {
+            // 詳細画面で入力したデータを追加
+            writeMemoData(titleName, author: authorName, publisher: publisherName, number: numberOfBooks, memo: memo)
+        } else if state == STATE.ST_EDIT {
+            // 詳細画面で入力したデータで更新
+            updateMemoData(titleName, author: authorName, publisher: publisherName, number: numberOfBooks, memo: memo)
+        } else {
+            println("state err!")
+        }
         
-        // 詳細画面で入力したデータを追加
-        writeMemoData(titleName, author: authorName, publisher: publisherName, number: numberOfBooks, memo: memo)
-
+        // ステートを初期状態に戻す
+        state = STATE.ST_NONE
         // データの再読込
         readMemoData()
         // TableViewを再読み込み.
@@ -169,14 +191,20 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         let myEntity: NSEntityDescription! = NSEntityDescription.entityForName("Entity", inManagedObjectContext: myContext)
         
+        // オブジェクトを新規作成
         var newData = Entity(entity: myEntity, insertIntoManagedObjectContext: myContext)
         newData.titleName = title
         newData.authorName = author
         newData.publisherName = publisher
         newData.numberOfBooks = number
         newData.memo = memo
-        // TODO: エラーの処理を書く
-        myContext.save(nil)
+
+        // 作成したオブジェクトを保存
+        var error: NSError? = nil
+        if !myContext.save(nil) {
+            println("writeMemoData err!")
+            abort()
+        }
     }
     
     // CoreDataからレコードの読み込み
@@ -195,6 +223,26 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         }
     }
     
+    // CoreDataのレコードを更新
+    func updateMemoData(title: String, author: String, publisher: String, number: Int, memo: String) {
+        let appDel: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let myContext: NSManagedObjectContext = appDel.managedObjectContext!
+        
+        var editData = myItems[editRow] as! Entity
+        editData.titleName = title
+        editData.authorName = author
+        editData.publisherName = publisher
+        editData.numberOfBooks = number
+        editData.memo = memo
+
+        // 作成したオブジェクトを保存
+        var error: NSError? = nil
+        if !myContext.save(nil) {
+            println("updateMemoData err!")
+            abort()
+        }
+    }
+    
     // CoreDataのレコードの削除
     func deleteMemoData(object: NSManagedObject) {
         // CoreDataの読み込み処理
@@ -202,7 +250,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let myContext: NSManagedObjectContext = appDel.managedObjectContext!
         
         myContext.deleteObject(object)
-        // TODO: エラーの処理を書く
-        myContext.save(nil)
+
+        // 作成したオブジェクトを保存
+        var error: NSError? = nil
+        if !myContext.save(nil) {
+            println("deleteMemoData err!")
+            abort()
+        }
     }
 }
