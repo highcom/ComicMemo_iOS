@@ -11,14 +11,10 @@ import UIKit
 class DetailViewController: UIViewController {
 
     @IBOutlet weak var titleField: UITextField!
-    @IBOutlet weak var authorField: UITextField!
-    @IBOutlet weak var publisherField: UITextField!
     @IBOutlet weak var numberOfBooksField: UITextField!
     @IBOutlet weak var memoTextView: PlaceHolderTextView!
     
     var titleName: String = ""
-    var authorName: String = ""
-    var publisherName: String = ""
     var numberOfBooks: Int = 0
     var memo: String = ""
     
@@ -28,15 +24,35 @@ class DetailViewController: UIViewController {
         memoTextView.layer.borderWidth = 0.5
         memoTextView.layer.borderColor = UIColor.lightGrayColor().CGColor
         memoTextView.layer.cornerRadius = 5
-        memoTextView.placeHolder = "メモを入力"
+        
         // 編集の場合は前の画面から値が渡されている
         titleField.text = titleName
-        authorField.text = authorName
-        publisherField.text = publisherName
-        numberOfBooksField.text = numberOfBooks.description
+        // 巻数が0の場合には表示しない
+        if numberOfBooks > 0 {
+            numberOfBooksField.text = numberOfBooks.description
+        } else {
+            numberOfBooksField.text = ""
+        }
+        
+        // メモが何も入力されていない場合はプレースホルダーを表示
         memoTextView.text = memo
+        if count(memoTextView.text) == 0 {
+            memoTextView.placeHolder = "メモを入力"
+        }
+    }
+    
+    // タイトル入力でReturnされた場合
+    @IBAction func titleTextFieldReturn(sender: UITextField) {
+        // 巻数入力エリアに移る
+        self.numberOfBooksField.becomeFirstResponder()
     }
 
+    // TextField以外の場所をタップされた場合
+    @IBAction func tapScreen(sender: AnyObject) {
+        // キーボードをしまう
+        self.view.endEditing(true)
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

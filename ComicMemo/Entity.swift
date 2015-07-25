@@ -12,8 +12,6 @@ import CoreData
 class Entity: NSManagedObject {
 
     @NSManaged var titleName: String
-    @NSManaged var authorName: String
-    @NSManaged var publisherName: String
     @NSManaged var numberOfBooks: NSNumber
     @NSManaged var memo: String
     

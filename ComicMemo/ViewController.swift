@@ -125,8 +125,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             var editData = myItems[editRow] as! Entity
             var newVC = segue.destinationViewController as! DetailViewController
             newVC.titleName = editData.titleName
-            newVC.authorName = editData.authorName
-            newVC.publisherName = editData.publisherName
             newVC.numberOfBooks = editData.numberOfBooks.integerValue
             newVC.memo = editData.memo
         }
@@ -160,18 +158,19 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let detailData = segue.sourceViewController as! DetailViewController
         // 詳細画面の入力データを受け取る
         var titleName = detailData.titleField.text
-        var authorName = detailData.authorField.text
-        var publisherName = detailData.publisherField.text
-        var numberOfBooks = detailData.numberOfBooksField.text.toInt()!
+        var numberOfBooks = 0;
+        if detailData.numberOfBooksField.text != "" {
+            numberOfBooks = detailData.numberOfBooksField.text.toInt()!
+        }
         var memo = detailData.memoTextView.text
         
         // TODO: infoボタンを押されて編集の場合はレコードを更新にするよう処理を分ける
         if state == STATE.ST_ADD {
             // 詳細画面で入力したデータを追加
-            writeMemoData(titleName, author: authorName, publisher: publisherName, number: numberOfBooks, memo: memo)
+            writeMemoData(titleName, number: numberOfBooks, memo: memo)
         } else if state == STATE.ST_EDIT {
             // 詳細画面で入力したデータで更新
-            updateMemoData(titleName, author: authorName, publisher: publisherName, number: numberOfBooks, memo: memo)
+            updateMemoData(titleName, number: numberOfBooks, memo: memo)
         } else {
             println("state err!")
         }
@@ -185,7 +184,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     // CoreDataへレコードの書き込み
-    func writeMemoData(title: String, author: String, publisher: String, number: Int, memo: String) {
+    func writeMemoData(title: String, number: Int, memo: String) {
         let appDel: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let myContext: NSManagedObjectContext = appDel.managedObjectContext!
         
@@ -194,8 +193,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         // オブジェクトを新規作成
         var newData = Entity(entity: myEntity, insertIntoManagedObjectContext: myContext)
         newData.titleName = title
-        newData.authorName = author
-        newData.publisherName = publisher
         newData.numberOfBooks = number
         newData.memo = memo
 
@@ -224,14 +221,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     // CoreDataのレコードを更新
-    func updateMemoData(title: String, author: String, publisher: String, number: Int, memo: String) {
+    func updateMemoData(title: String, number: Int, memo: String) {
         let appDel: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let myContext: NSManagedObjectContext = appDel.managedObjectContext!
         
         var editData = myItems[editRow] as! Entity
         editData.titleName = title
-        editData.authorName = author
-        editData.publisherName = publisher
         editData.numberOfBooks = number
         editData.memo = memo
 
