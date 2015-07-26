@@ -11,9 +11,15 @@ import CoreData
 
 class Entity: NSManagedObject {
 
+    @NSManaged var displayOrder: NSNumber
     @NSManaged var titleName: String
     @NSManaged var numberOfBooks: NSNumber
     @NSManaged var memo: String
+    
+    // 表示順番を取得
+    func getDisplayOrder() -> Int {
+        return displayOrder.integerValue
+    }
     
     // タイトル名を取得
     func getTitle() -> String {

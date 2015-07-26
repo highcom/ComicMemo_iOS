@@ -61,6 +61,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         var item = myItems[row!] as! ComicMemo.Entity
         item.addNum()
         
+        // 現在の状態を保存する
+        saveMemoData()
+
         // TableViewを再読み込み.
         tableView.reloadData()
     }
@@ -132,7 +135,44 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
     // 並べ替えをできるようにする
     func tableView(tableView: UITableView, moveRowAtIndexPath sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath) {
-        // TODO: 並べ替えたら、その順番でCoreDataに保存する処理
+        // 並べ替えたら、その順番でCoreDataに保存する
+        var srcIndex = sourceIndexPath.row
+        var desIndex = destinationIndexPath.row
+        var minIndex = 0
+        var maxIndex = 0
+        var isMoveDir = false
+        
+        if srcIndex == desIndex {
+            return
+        } else if srcIndex < desIndex {
+            minIndex = srcIndex
+            maxIndex = desIndex
+            isMoveDir = true
+        } else {
+            minIndex = desIndex
+            maxIndex = srcIndex
+            isMoveDir = false
+        }
+        
+        for var i = minIndex; i <= maxIndex; i++ {
+            var newOrder = 0
+            if i == srcIndex {
+                newOrder = desIndex
+            } else if isMoveDir {
+                let buffItem = myItems[i] as! Entity
+                newOrder = buffItem.getDisplayOrder() - 1
+            } else {
+                let buffItem = myItems[i] as! Entity
+                newOrder = buffItem.getDisplayOrder() + 1
+            }
+            myItems[i].setValue(newOrder, forKey: "displayOrder")
+        }
+        
+        saveMemoData()
+    }
+    
+    func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return true
     }
     
     // 検索バー入力イベント
@@ -164,15 +204,15 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         }
         var memo = detailData.memoTextView.text
         
-        // TODO: infoボタンを押されて編集の場合はレコードを更新にするよう処理を分ける
+        // infoボタンを押されて編集の場合はレコードを更新にするよう処理を分ける
         if state == STATE.ST_ADD {
             // 詳細画面で入力したデータを追加
-            writeMemoData(titleName, number: numberOfBooks, memo: memo)
+            writeMemoData(myItems.count, title: titleName, number: numberOfBooks, memo: memo)
         } else if state == STATE.ST_EDIT {
             // 詳細画面で入力したデータで更新
             updateMemoData(titleName, number: numberOfBooks, memo: memo)
         } else {
-            println("state err!")
+            NSLog("state err!")
         }
         
         // ステートを初期状態に戻す
@@ -184,7 +224,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     // CoreDataへレコードの書き込み
-    func writeMemoData(title: String, number: Int, memo: String) {
+    func writeMemoData(order: Int, title: String, number: Int, memo: String) {
         let appDel: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let myContext: NSManagedObjectContext = appDel.managedObjectContext!
         
@@ -192,14 +232,15 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         // オブジェクトを新規作成
         var newData = Entity(entity: myEntity, insertIntoManagedObjectContext: myContext)
+        newData.displayOrder = order
         newData.titleName = title
         newData.numberOfBooks = number
         newData.memo = memo
 
         // 作成したオブジェクトを保存
         var error: NSError? = nil
-        if !myContext.save(nil) {
-            println("writeMemoData err!")
+        if !myContext.save(&error) {
+            NSLog("writeMemoData err![\(error)]")
             abort()
         }
     }
@@ -218,6 +259,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         for myData in myResults {
             myItems.addObject(myData)
         }
+        
+        // displayOrderの順番で表示
+        let sort_descriptor:NSSortDescriptor = NSSortDescriptor(key:"displayOrder", ascending:true)
+        myItems.sortUsingDescriptors([sort_descriptor])
     }
     
     // CoreDataのレコードを更新
@@ -232,8 +277,21 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
         // 作成したオブジェクトを保存
         var error: NSError? = nil
-        if !myContext.save(nil) {
-            println("updateMemoData err!")
+        if !myContext.save(&error) {
+            NSLog("updateMemoData err![\(error)]")
+            abort()
+        }
+    }
+    
+    // CoreDataの現在の状態を保存
+    func saveMemoData() {
+        let appDel: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let myContext: NSManagedObjectContext = appDel.managedObjectContext!
+
+        // 作成したオブジェクトを保存
+        var error: NSError? = nil
+        if !myContext.save(&error) {
+            NSLog("updateMemoData err![\(error)]")
             abort()
         }
     }
@@ -248,8 +306,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
         // 作成したオブジェクトを保存
         var error: NSError? = nil
-        if !myContext.save(nil) {
-            println("deleteMemoData err!")
+        if !myContext.save(&error) {
+            NSLog("deleteMemoData err![\(error)]")
             abort()
         }
     }
