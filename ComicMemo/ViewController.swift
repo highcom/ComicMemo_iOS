@@ -171,6 +171,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         saveMemoData()
     }
     
+    // tableViewを並べ替え可能とする
     func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         return true
     }
@@ -180,6 +181,18 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         // TODO: 検索バーで入力された文字列をCoreDataから検索
         // テキストが変更される毎に呼ばれる
         println(searchText)
+    }
+    
+    // 検索ボタンが押下された場合
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+        // キーボードをしまう
+        self.view.endEditing(true)
+    }
+    
+    // 検索バー以外の画面がタップされた場合
+    @IBAction func tapScreen(sender: AnyObject) {
+        // キーボードをしまう
+        self.view.endEditing(true)
     }
     
     override func didReceiveMemoryWarning() {
