@@ -207,15 +207,18 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         // TableViewを再読み込み.
         tableView.reloadData()
     }
-    
-    // 検索バー以外の画面がタップされた場合
-    @IBAction func tapScreen(sender: AnyObject) {
+
+    //キャンセルクリック時(UISearchBarDelegateを関連づけておく必要があります）
+    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
         // キーボードをしまう
         self.view.endEditing(true)
+        // 文字列を初期化する
+        tableSearchText = ""
+        searchBar.text = ""
         // TableViewを再読み込み.
         tableView.reloadData()
     }
-    
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
