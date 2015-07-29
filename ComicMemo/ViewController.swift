@@ -14,6 +14,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     @IBOutlet weak var tableView: UITableView!
     var myItems: NSMutableArray = []
     var editRow: Int = 0
+    var tableSearchText: String = ""
+    var searchItems: NSMutableArray = []
     
     // 画面遷移時の状態
     var state = STATE.ST_NONE
@@ -70,13 +72,22 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     // 行数
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return myItems.count
+        if tableSearchText != "" {
+            return searchItems.count
+        } else {
+            return myItems.count
+        }
     }
     
     // セルの設定
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCellWithIdentifier("memoCell") as! UITableViewCell
-        var myItem = myItems[indexPath.row] as! ComicMemo.Entity
+        var myItem: ComicMemo.Entity! = nil
+        if tableSearchText != "" {
+            myItem = searchItems[indexPath.row] as! ComicMemo.Entity
+        } else {
+            myItem = myItems[indexPath.row] as! ComicMemo.Entity
+        }
         
         // tag1(タイトル)を取得
         var titleText = cell.viewWithTag(1) as! UILabel
@@ -180,19 +191,29 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
         // TODO: 検索バーで入力された文字列をCoreDataから検索
         // テキストが変更される毎に呼ばれる
-        println(searchText)
+        tableSearchText = searchText
+        // CoreDataから検索する
+        searchMemoData()
+        // TableViewを再読み込み.
+        tableView.reloadData()
     }
     
     // 検索ボタンが押下された場合
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
         // キーボードをしまう
         self.view.endEditing(true)
+        // CoreDataから検索する
+        searchMemoData()
+        // TableViewを再読み込み.
+        tableView.reloadData()
     }
     
     // 検索バー以外の画面がタップされた場合
     @IBAction func tapScreen(sender: AnyObject) {
         // キーボードをしまう
         self.view.endEditing(true)
+        // TableViewを再読み込み.
+        tableView.reloadData()
     }
     
     override func didReceiveMemoryWarning() {
@@ -292,6 +313,29 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         var error: NSError? = nil
         if !myContext.save(&error) {
             NSLog("updateMemoData err![\(error)]")
+            abort()
+        }
+    }
+    
+    // CoreDataのレコードから部分一致検索
+    func searchMemoData() {
+        let appDel: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let myContext: NSManagedObjectContext = appDel.managedObjectContext!
+
+        let myRequest: NSFetchRequest = NSFetchRequest(entityName: "Entity")
+        // 検索条件を設定
+        let predicate = NSPredicate(format: "%K contains %@", "titleName", tableSearchText)
+        myRequest.predicate = predicate
+        
+        var error: NSError? = nil;
+        // フェッチリクエストの実行
+        searchItems = []
+        if var results = myContext.executeFetchRequest(myRequest, error: &error) {
+            for managedObject in results {
+                searchItems.addObject(managedObject as! ComicMemo.Entity)
+            }
+        } else {
+            NSLog("searchMemoData err![\(error)]")
             abort()
         }
     }
