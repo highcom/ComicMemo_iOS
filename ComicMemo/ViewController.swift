@@ -60,7 +60,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         var row = tableView.indexPathForCell(cell)?.row
 
         // 選択行に対するデータを取得
-        var item = myItems[row!] as! ComicMemo.Entity
+        var item = getItems(row!)
         item.addNum()
         
         // 現在の状態を保存する
@@ -72,22 +72,18 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     // 行数
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if tableSearchText != "" {
-            return searchItems.count
-        } else {
+        // 検索中か
+        if tableSearchText == "" {
             return myItems.count
+        } else {
+            return searchItems.count
         }
     }
     
     // セルの設定
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCellWithIdentifier("memoCell") as! UITableViewCell
-        var myItem: ComicMemo.Entity! = nil
-        if tableSearchText != "" {
-            myItem = searchItems[indexPath.row] as! ComicMemo.Entity
-        } else {
-            myItem = myItems[indexPath.row] as! ComicMemo.Entity
-        }
+        var myItem = getItems(indexPath.row)
         
         // tag1(タイトル)を取得
         var titleText = cell.viewWithTag(1) as! UILabel
@@ -135,8 +131,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // 編集時にテーブルのデータを詳細画面に渡す
         if segue.identifier == "detailViewSegue" && state == STATE.ST_EDIT {
-            // 選択したテーブルのデータを詳細が画面に渡す
-            var editData = myItems[editRow] as! Entity
+            // 選択したテーブルのデータを詳細画面に渡す
+            var editData = getItems(editRow)
             var newVC = segue.destinationViewController as! DetailViewController
             newVC.titleName = editData.titleName
             newVC.numberOfBooks = editData.numberOfBooks.integerValue
@@ -182,9 +178,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         saveMemoData()
     }
     
-    // tableViewを並べ替え可能とする
+    // 検索状態に応じてtableViewを並べ替え可能・不可能を設定
     func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        return true
+        // 検索中でない場合は並べ替えを可能とする
+        if tableSearchText == "" {
+            return true
+        } else {
+            return false
+        }
     }
     
     // 検索バー入力イベント
@@ -208,7 +209,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         tableView.reloadData()
     }
 
-    //キャンセルクリック時(UISearchBarDelegateを関連づけておく必要があります）
+    // キャンセルボタンが押下された場合
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {
         // キーボードをしまう
         self.view.endEditing(true)
@@ -217,6 +218,15 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         searchBar.text = ""
         // TableViewを再読み込み.
         tableView.reloadData()
+    }
+    
+    // 検索状態に応じてテーブルを返却する
+    func getItems(row: Int) -> ComicMemo.Entity {
+        if tableSearchText == "" {
+            return myItems[row] as! ComicMemo.Entity
+        } else {
+            return searchItems[row] as! ComicMemo.Entity
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -307,7 +317,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let appDel: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let myContext: NSManagedObjectContext = appDel.managedObjectContext!
         
-        var editData = myItems[editRow] as! Entity
+        var editData = getItems(editRow)
         editData.titleName = title
         editData.numberOfBooks = number
         editData.memo = memo
@@ -337,6 +347,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             for managedObject in results {
                 searchItems.addObject(managedObject as! ComicMemo.Entity)
             }
+            // displayOrderの順番で表示
+            let sort_descriptor:NSSortDescriptor = NSSortDescriptor(key:"displayOrder", ascending:true)
+            searchItems.sortUsingDescriptors([sort_descriptor])
         } else {
             NSLog("searchMemoData err![\(error)]")
             abort()
