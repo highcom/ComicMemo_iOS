@@ -184,8 +184,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             }
             myItems[i].setValue(newOrder, forKey: "displayOrder")
         }
-        
+        // 現在の状態を保存する
         saveMemoData()
+        // 順番が変わったのでデータを再読込する
+        readMemoData()
     }
     
     // 検索状態に応じてtableViewを並べ替え可能・不可能を設定
