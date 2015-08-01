@@ -12,6 +12,7 @@ import CoreData
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var changeEditButton: UIBarButtonItem!
     var myItems: NSMutableArray = []
     var editRow: Int = 0
     var tableSearchText: String = ""
@@ -72,12 +73,21 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     // 行数
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        var tableCount = 0
         // 検索中か
         if tableSearchText == "" {
-            return myItems.count
+            tableCount = myItems.count
         } else {
-            return searchItems.count
+            tableCount = searchItems.count
         }
+        // データが1件以上ある場合には編集ボタンを有効化する
+        if tableCount > 0 {
+            changeEditButton.enabled = true
+        } else {
+            changeEditButton.enabled = false
+        }
+        
+        return tableCount
     }
     
     // セルの設定
