@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DetailViewController: UIViewController {
+class DetailViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var titleField: UITextField!
     @IBOutlet weak var numberOfBooksField: UITextField!
@@ -24,6 +24,8 @@ class DetailViewController: UIViewController {
         memoTextView.layer.borderWidth = 0.5
         memoTextView.layer.borderColor = UIColor.lightGrayColor().CGColor
         memoTextView.layer.cornerRadius = 5
+        
+        numberOfBooksField.delegate = self
         
         // 編集の場合は前の画面から値が渡されている
         titleField.text = titleName
@@ -41,6 +43,22 @@ class DetailViewController: UIViewController {
         }
     }
     
+    // 巻数は３桁まで入力可能
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+        // 文字数最大
+        let maxLength: Int = 4
+        // 入力済みの文字と入力された文字を合わせて取得
+        var str = textField.text + string
+
+        // 文字数がmaxLength以下かつ数値ならtrueを返す
+        if count("\(str)") < maxLength {
+            if str.toInt() != nil {
+                return true
+            }
+        }
+        return false
+    }
+
     // タイトル入力でReturnされた場合
     @IBAction func titleTextFieldReturn(sender: UITextField) {
         // 巻数入力エリアに移る

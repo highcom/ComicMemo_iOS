@@ -38,7 +38,10 @@ class Entity: NSManagedObject {
     
     // 巻数を追加
     func addNum() {
-        var num: NSNumber = numberOfBooks.integerValue + 1
-        numberOfBooks = num
+        // 巻数の上限を999とする
+        if numberOfBooks.integerValue < 999 {
+            var num: NSNumber = numberOfBooks.integerValue + 1
+            numberOfBooks = num
+        }
     }
 }
