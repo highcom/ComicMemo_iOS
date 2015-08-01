@@ -198,6 +198,64 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         }
     }
     
+    // セルを長押しされた時の処理
+    @IBAction func tableCellLongPressed(sender: UILongPressGestureRecognizer) {
+        // 押された位置でcellのPathを取得
+        let point = sender.locationInView(tableView)
+        let indexPath = tableView.indexPathForRowAtPoint(point)
+        
+        if indexPath == nil {
+            // 長押し位置に対する行数が取得できなければ何もしない
+        } else if sender.state == UIGestureRecognizerState.Began  {
+            // 長押しされた場合の処理
+            var selectItems = getItems(indexPath!.row) as ComicMemo.Entity
+            let alertController = UIAlertController()
+            let firstAction = UIAlertAction(title: "コピー", style: .Default) {
+                // 選択行の文字列をコピーする
+                action in self.copyPasteBoard(selectItems.titleName)
+            }
+            let secondAction = UIAlertAction(title: "Safariで検索", style: .Default) {
+                // 選択行の文字列をSafariで検索する
+                action in self.searchSafari(selectItems.titleName)
+            }
+            let cancelAction = UIAlertAction(title: "キャンセル", style: .Cancel) {
+                action in self.alertCancel()
+            }
+            
+            alertController.addAction(firstAction)
+            alertController.addAction(secondAction)
+            alertController.addAction(cancelAction)
+            
+            //For ipad And Univarsal Device
+            alertController.popoverPresentationController?.sourceView = tableView.superview
+            alertController.popoverPresentationController?.sourceRect = CGRect(x: (tableView.superview!.frame.width/2), y: tableView.superview!.frame.height, width: 0, height: 0)
+            alertController.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection.Up
+            
+            presentViewController(alertController, animated: true, completion: nil)
+        }
+    }
+    
+    // [アラート]ペーストボードに文字列をコピーする
+    func copyPasteBoard(text: String) {
+        var pasteBoard = UIPasteboard.generalPasteboard()
+        pasteBoard.string = text
+    }
+    
+    // [アラート]Safariで文字列を検索する
+    func searchSafari(text: String) {
+        let encodeText = text.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())
+        var searchText = "https://www.google.co.jp/#q=" + encodeText!
+        let url = NSURL(string: searchText)
+        if UIApplication.sharedApplication().canOpenURL(url!){
+            UIApplication.sharedApplication().openURL(url!)
+        }
+    }
+    
+    // [アラート]キャンセルボタン
+    func alertCancel() {
+        // キャンセル選択時は何もしない
+    }
+    
     // 検索バー入力イベント
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
         // TODO: 検索バーで入力された文字列をCoreDataから検索
