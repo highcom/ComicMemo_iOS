@@ -309,6 +309,16 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         // キャンセル選択時は何もしない
     }
     
+    // 検索バー入力開始時
+    func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
+        // 検索バーを伸ばす
+        searchBar.frame = CGRectMake(searchBar.frame.origin.x, searchBar.frame.origin.y, searchBar.frame.width + 60, searchBar.frame.height)
+        // キャンセルボタンを有効化する
+        searchBar.showsCancelButton = true
+        // AutoResizeを無効化する
+        searchBar.setTranslatesAutoresizingMaskIntoConstraints(true)
+    }
+    
     // 検索バー入力イベント
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
         // TODO: 検索バーで入力された文字列をCoreDataから検索
@@ -339,6 +349,16 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         searchBar.text = ""
         // TableViewを再読み込み.
         tableView.reloadData()
+    }
+    
+    // 検索バー入力終了時
+    func searchBarTextDidEndEditing(searchBar: UISearchBar) {
+        // キャンセルボタンを無効化する
+        searchBar.showsCancelButton = false
+        // 検索バーを元のサイズに戻す
+        searchBar.frame = CGRectMake(searchBar.frame.origin.x, searchBar.frame.origin.y, searchBar.frame.width - 60, searchBar.frame.height)
+        // AutoResizeを有効化する
+        searchBar.setTranslatesAutoresizingMaskIntoConstraints(false)
     }
     
     // 検索状態に応じてテーブルを返却する
