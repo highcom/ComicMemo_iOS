@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import GoogleMobileAds
 
-class DetailViewController: UIViewController, UITextFieldDelegate {
+class DetailViewController: UIViewController, UITextFieldDelegate, GADBannerViewDelegate {
 
     @IBOutlet weak var titleField: UITextField!
     @IBOutlet weak var numberOfBooksField: UITextField!
@@ -41,6 +42,17 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
         if count(memoTextView.text) == 0 {
             memoTextView.placeHolder = "メモを入力"
         }
+        
+        // AdMob広告の表示
+        let bannerView:GADBannerView = GADBannerView(adSize: kGADAdSizeSmartBannerPortrait)
+        bannerView.frame.origin = CGPoint(x: 0, y: self.view.frame.size.height - bannerView.frame.height)
+        bannerView.adUnitID = "ca-app-pub-3217012767112748/9555891916"
+        bannerView.delegate = self
+        bannerView.rootViewController = self
+        let gadRequest:GADRequest = GADRequest()
+        gadRequest.testDevices = [kGADSimulatorID]  // TODO:テスト時のみ
+        bannerView.loadRequest(gadRequest)
+        self.view.addSubview(bannerView)
     }
     
     // 巻数は３桁まで入力可能
