@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 import GoogleMobileAds
 
-class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, GADBannerViewDelegate {
+class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate, GADBannerViewDelegate {
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var changeEditButton: UIBarButtonItem!
@@ -69,7 +69,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     @IBAction func tapNumAdd(sender: AnyObject) {
         // タップされたボタンのtableviewの選択行を取得
         var btn = sender as! UIButton
-        var cell = btn.superview?.superview as! UITableViewCell
+        var cell: UITableViewCell! = nil
+        if (UIDevice.currentDevice().systemVersion as NSString).floatValue >= 8.0 {
+            // iOS8の場合
+            cell = btn.superview?.superview as! UITableViewCell
+        } else {
+            // iOS7の場合
+            cell = btn.superview?.superview?.superview as! UITableViewCell
+        }
         var row = tableView.indexPathForCell(cell)?.row
 
         // 選択行に対するデータを取得
@@ -223,29 +230,49 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         } else if sender.state == UIGestureRecognizerState.Began  {
             // 長押しされた場合の処理
             var selectItems = getItems(indexPath!.row) as ComicMemo.Entity
-            let alertController = UIAlertController()
-            let firstAction = UIAlertAction(title: "コピー", style: .Default) {
-                // 選択行の文字列をコピーする
-                action in self.copyPasteBoard(selectItems.titleName)
-            }
-            let secondAction = UIAlertAction(title: "Safariで検索", style: .Default) {
-                // 選択行の文字列をSafariで検索する
-                action in self.searchSafari(selectItems.titleName)
-            }
-            let cancelAction = UIAlertAction(title: "キャンセル", style: .Cancel) {
-                action in self.alertCancel()
-            }
+            if objc_getClass("UIAlertController") != nil {
+                // iOS8の場合はUIAlertControllerを使う
+                let alertController = UIAlertController()
+                let firstAction = UIAlertAction(title: "コピー", style: .Default) {
+                        // 選択行の文字列をコピーする
+                        action in self.copyPasteBoard(selectItems.titleName)
+                }
+                let secondAction = UIAlertAction(title: "Safariで検索", style: .Default) {
+                    // 選択行の文字列をSafariで検索する
+                    action in self.searchSafari(selectItems.titleName)
+                }
+                let cancelAction = UIAlertAction(title: "キャンセル", style: .Cancel) {
+                    action in self.alertCancel()
+                }
             
-            alertController.addAction(firstAction)
-            alertController.addAction(secondAction)
-            alertController.addAction(cancelAction)
+                alertController.addAction(firstAction)
+                alertController.addAction(secondAction)
+                alertController.addAction(cancelAction)
             
-            //For ipad And Univarsal Device
-            alertController.popoverPresentationController?.sourceView = tableView.superview
-            alertController.popoverPresentationController?.sourceRect = CGRect(x: (tableView.superview!.frame.width/2), y: tableView.superview!.frame.height, width: 0, height: 0)
-            alertController.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection.Up
+                //For ipad And Univarsal Device
+                alertController.popoverPresentationController?.sourceView = tableView.superview
+                alertController.popoverPresentationController?.sourceRect = CGRect(x: (tableView.superview!.frame.width/2), y: tableView.superview!.frame.height, width: 0, height: 0)
+                alertController.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection.Up
             
-            presentViewController(alertController, animated: true, completion: nil)
+                presentViewController(alertController, animated: true, completion: nil)
+            } else {
+                // iOS7以前の場合はUIAlertViewを使う
+                var alertView = UIAlertView(title: selectItems.titleName, message: "", delegate: self, cancelButtonTitle: "Cancel", otherButtonTitles: "コピー", "Safariで検索")
+                alertView.show()
+            }
+        }
+    }
+    
+    // alertView選択時の処理
+    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
+        if buttonIndex == alertView.cancelButtonIndex {
+            // キャンセルされた
+        } else if buttonIndex == 1 {
+            // コピーが選択された
+            copyPasteBoard(alertView.title)
+        } else if buttonIndex == 2 {
+            // Safariで検索が選択された
+            searchSafari(alertView.title)
         }
     }
     
