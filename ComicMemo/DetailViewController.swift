@@ -44,8 +44,8 @@ class DetailViewController: UIViewController, UITextFieldDelegate, GADBannerView
         }
         
         // AdMob広告の表示
-        let bannerView:GADBannerView = GADBannerView(adSize: kGADAdSizeSmartBannerPortrait)
-        bannerView.frame.origin = CGPoint(x: 0, y: self.view.frame.size.height - bannerView.frame.height)
+        let bannerView:GADBannerView = GADBannerView(adSize: kGADAdSizeBanner)
+        bannerView.frame.origin = CGPoint(x: self.view.frame.size.width / 2 - bannerView.frame.width / 2, y: self.view.frame.size.height - bannerView.frame.height)
         bannerView.adUnitID = "ca-app-pub-3217012767112748/9555891916"
         bannerView.delegate = self
         bannerView.rootViewController = self

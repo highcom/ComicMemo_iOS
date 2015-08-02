@@ -46,17 +46,41 @@
                                 </connections>
                             </searchBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="42" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="uCF-eN-FZz">
-                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                                <rect key="frame" x="0.0" y="64" width="600" height="486"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="memoCell" editingAccessoryType="detailDisclosureButton" rowHeight="42" id="X0x-BR-DOW">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="memoCell" editingAccessoryType="detailButton" rowHeight="42" id="X0x-BR-DOW">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="X0x-BR-DOW" id="GJB-jl-HXr">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="3" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="999" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uRq-Dc-cTX">
+                                                    <rect key="frame" x="488" y="10" width="29" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="メモを表示" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s6a-r9-E8J">
+                                                    <rect key="frame" x="8" y="29" width="484" height="12"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="タイトル名" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ylz-Ek-JOv">
+                                                    <rect key="frame" x="8" y="10" width="484" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="4" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="巻" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="POH-x2-AnM">
+                                                    <rect key="frame" x="525" y="10" width="17" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                                 <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z3A-Kd-OyY" customClass="AddCountCustomButton" customModule="ComicMemo" customModuleProvider="target">
-                                                    <rect key="frame" x="562" y="6" width="30" height="30"/>
+                                                    <rect key="frame" x="550" y="6" width="30" height="30"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <state key="normal" title="＋">
                                                         <color key="titleColor" red="0.043137254901960784" green="0.32941176470588235" blue="0.88627450980392153" alpha="1" colorSpace="calibratedRGB"/>
@@ -79,30 +103,6 @@
                                                         <action selector="tapNumAdd:" destination="BYZ-38-t0r" eventType="touchUpInside" id="d6T-jX-Egr"/>
                                                     </connections>
                                                 </button>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="3" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="999" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uRq-Dc-cTX">
-                                                    <rect key="frame" x="500" y="10" width="29" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="メモを表示" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s6a-r9-E8J">
-                                                    <rect key="frame" x="8" y="29" width="484" height="12"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="タイトル名" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ylz-Ek-JOv">
-                                                    <rect key="frame" x="8" y="10" width="484" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="4" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="巻" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="POH-x2-AnM">
-                                                    <rect key="frame" x="537" y="10" width="17" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="uRq-Dc-cTX" firstAttribute="bottom" secondItem="POH-x2-AnM" secondAttribute="bottom" id="0JZ-n7-kuO"/>
@@ -119,6 +119,7 @@
                                                 <constraint firstItem="POH-x2-AnM" firstAttribute="leading" secondItem="uRq-Dc-cTX" secondAttribute="trailing" constant="8" symbolic="YES" id="O2m-My-bm9"/>
                                                 <constraint firstItem="uRq-Dc-cTX" firstAttribute="bottom" secondItem="POH-x2-AnM" secondAttribute="bottom" id="Pax-bw-I6s"/>
                                                 <constraint firstAttribute="centerY" secondItem="ylz-Ek-JOv" secondAttribute="centerY" id="QLq-Xy-7po"/>
+                                                <constraint firstAttribute="trailing" secondItem="z3A-Kd-OyY" secondAttribute="trailing" constant="20" id="VDk-C6-Yhb"/>
                                                 <constraint firstItem="uRq-Dc-cTX" firstAttribute="bottom" secondItem="POH-x2-AnM" secondAttribute="bottom" id="ZnF-xq-mZ6"/>
                                                 <constraint firstItem="POH-x2-AnM" firstAttribute="centerY" secondItem="z3A-Kd-OyY" secondAttribute="centerY" constant="-0.5" id="cHa-pD-OOg"/>
                                                 <constraint firstItem="ylz-Ek-JOv" firstAttribute="top" secondItem="GJB-jl-HXr" secondAttribute="top" constant="10" id="clZ-wz-y1F"/>
@@ -136,6 +137,7 @@
                                                     <exclude reference="d44-vf-fMa"/>
                                                     <exclude reference="NUM-rl-XDo"/>
                                                     <exclude reference="phE-U6-Ehr"/>
+                                                    <exclude reference="GWx-pR-qOb"/>
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>
@@ -153,16 +155,22 @@
                             <constraint firstAttribute="centerX" secondItem="6t6-a0-sIO" secondAttribute="centerX" id="D3k-kg-UM6"/>
                             <constraint firstAttribute="trailing" secondItem="6t6-a0-sIO" secondAttribute="trailing" id="EA6-sd-tS5"/>
                             <constraint firstAttribute="trailing" secondItem="uCF-eN-FZz" secondAttribute="trailing" id="Lzi-cY-x8L"/>
-                            <constraint firstAttribute="bottom" secondItem="uCF-eN-FZz" secondAttribute="bottom" id="Obr-uV-XTg"/>
+                            <constraint firstAttribute="bottom" secondItem="uCF-eN-FZz" secondAttribute="bottom" placeholder="YES" id="Obr-uV-XTg"/>
                             <constraint firstAttribute="trailing" secondItem="5y8-od-2xl" secondAttribute="trailing" constant="60" id="Rs2-gl-L3u"/>
                             <constraint firstAttribute="centerX" secondItem="uCF-eN-FZz" secondAttribute="centerX" id="Sut-RJ-xG8"/>
                             <constraint firstItem="6t6-a0-sIO" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Yry-79-dn6"/>
                             <constraint firstItem="uCF-eN-FZz" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="64" id="dxS-Ke-6bK"/>
                             <constraint firstItem="6t6-a0-sIO" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="20" id="emY-Hw-qhS"/>
                             <constraint firstItem="5y8-od-2xl" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="20" id="hdz-gF-bg7"/>
+                            <constraint firstAttribute="bottom" secondItem="uCF-eN-FZz" secondAttribute="bottom" constant="50" id="lBx-Qr-Yvd"/>
                             <constraint firstItem="uCF-eN-FZz" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="uIB-4V-H2q"/>
                             <constraint firstItem="5y8-od-2xl" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="60" id="xZj-3E-YnW"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="Obr-uV-XTg"/>
+                            </mask>
+                        </variation>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="FpX-Zl-ToI" appends="YES" id="Pct-dD-4w2"/>
                         </connections>
