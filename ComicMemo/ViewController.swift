@@ -140,6 +140,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             
             // 指定されたセルのオブジェクトをmyItemsから削除する.
             myItems.removeObjectAtIndex(indexPath.row)
+            
+            // 削除したセル以降のdisplayOrderをつめる
+            for var i = indexPath.row; i < myItems.count; i++ {
+                var buffItem = myItems[i] as! ComicMemo.Entity
+                buffItem.displayOrder = buffItem.displayOrder.integerValue - 1
+            }
  
             // TableViewを再読み込み.
             tableView.reloadData()
