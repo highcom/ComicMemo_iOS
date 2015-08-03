@@ -41,7 +41,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         bannerView.delegate = self
         bannerView.rootViewController = self
         let gadRequest:GADRequest = GADRequest()
-        gadRequest.testDevices = [kGADSimulatorID]  // TODO:テスト時のみ
         bannerView.loadRequest(gadRequest)
         self.view.addSubview(bannerView)
     }
