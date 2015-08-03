@@ -1,45 +1,55 @@
 {
   "images" : [
     {
+      "extent" : "full-screen",
+      "idiom" : "iphone",
+      "subtype" : "736h",
+      "filename" : "ComicMemoLaunch6P.png",
+      "minimum-system-version" : "8.0",
       "orientation" : "portrait",
-      "idiom" : "ipad",
-      "minimum-system-version" : "7.0",
-      "extent" : "full-screen",
-      "scale" : "2x"
+      "scale" : "3x"
     },
     {
-      "orientation" : "landscape",
-      "idiom" : "ipad",
-      "minimum-system-version" : "7.0",
       "extent" : "full-screen",
-      "scale" : "1x"
-    },
-    {
-      "orientation" : "landscape",
-      "idiom" : "ipad",
-      "minimum-system-version" : "7.0",
-      "extent" : "full-screen",
+      "idiom" : "iphone",
+      "subtype" : "667h",
+      "filename" : "ComicMemoLaunch6-1.png",
+      "minimum-system-version" : "8.0",
+      "orientation" : "portrait",
       "scale" : "2x"
     },
     {
       "orientation" : "portrait",
       "idiom" : "iphone",
+      "extent" : "full-screen",
       "minimum-system-version" : "7.0",
+      "filename" : "ComicMemoLaunch4.png",
       "scale" : "2x"
     },
     {
-      "orientation" : "portrait",
+      "extent" : "full-screen",
       "idiom" : "iphone",
-      "minimum-system-version" : "7.0",
       "subtype" : "retina4",
+      "filename" : "ComicMemoLaunch5-1.png",
+      "minimum-system-version" : "7.0",
+      "orientation" : "portrait",
       "scale" : "2x"
     },
     {
       "orientation" : "portrait",
       "idiom" : "ipad",
-      "minimum-system-version" : "7.0",
       "extent" : "full-screen",
+      "minimum-system-version" : "7.0",
+      "filename" : "ComicMemoLaunch_iPad.png",
       "scale" : "1x"
+    },
+    {
+      "orientation" : "portrait",
+      "idiom" : "ipad",
+      "extent" : "full-screen",
+      "minimum-system-version" : "7.0",
+      "filename" : "ComicMemoLaunch_iPad_R.png",
+      "scale" : "2x"
     }
   ],
   "info" : {
