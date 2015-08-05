@@ -1,0 +1,27 @@
+
+/* Class = "UILabel"; text = "タイトル名"; ObjectID = "PIR-lq-lAw"; */
+"PIR-lq-lAw.text" = "タイトル名";
+
+/* Class = "UILabel"; text = "巻"; ObjectID = "POH-x2-AnM"; */
+"POH-x2-AnM.text" = "巻";
+
+/* Class = "UILabel"; text = "巻数"; ObjectID = "VAo-QH-iCR"; */
+"VAo-QH-iCR.text" = "巻数";
+
+/* Class = "UINavigationItem"; title = "一覧"; ObjectID = "YSl-Kl-Jks"; */
+"YSl-Kl-Jks.title" = "一覧";
+
+/* Class = "UILabel"; text = "メモを表示"; ObjectID = "s6a-r9-E8J"; */
+"s6a-r9-E8J.text" = "メモを表示";
+
+/* Class = "UINavigationItem"; title = "詳細"; ObjectID = "tA0-YL-LMB"; */
+"tA0-YL-LMB.title" = "詳細";
+
+/* Class = "UILabel"; text = "999"; ObjectID = "uRq-Dc-cTX"; */
+"uRq-Dc-cTX.text" = "999";
+
+/* Class = "UILabel"; text = "タイトル名"; ObjectID = "ylz-Ek-JOv"; */
+"ylz-Ek-JOv.text" = "タイトル名";
+
+/* Class = "UIButton"; normalTitle = "＋"; ObjectID = "z3A-Kd-OyY"; */
+"z3A-Kd-OyY.normalTitle" = "＋";
