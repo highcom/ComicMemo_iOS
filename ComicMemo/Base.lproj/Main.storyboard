@@ -251,9 +251,6 @@
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sLO-7b-vXA" customClass="PlaceHolderTextView" customModule="ComicMemo" customModuleProvider="target">
                                 <rect key="frame" x="16" y="150" width="568" height="188"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="188" id="T46-Su-Paw"/>
-                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
@@ -268,7 +265,6 @@
                             <constraint firstAttribute="bottom" secondItem="sLO-7b-vXA" secondAttribute="bottom" constant="262" id="Fqe-3X-bxc"/>
                             <constraint firstItem="VAo-QH-iCR" firstAttribute="leading" secondItem="hQB-Fx-RRW" secondAttribute="leadingMargin" constant="44" id="GlF-ek-PWr"/>
                             <constraint firstItem="PIR-lq-lAw" firstAttribute="centerY" secondItem="c0Y-ks-yld" secondAttribute="centerY" constant="0.5" id="KgJ-ML-BU3"/>
-                            <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="sLO-7b-vXA" secondAttribute="bottom" constant="262" id="MW5-W0-yQa"/>
                             <constraint firstItem="c0Y-ks-yld" firstAttribute="top" secondItem="hQB-Fx-RRW" secondAttribute="top" constant="74" id="T3X-0H-fRY"/>
                             <constraint firstItem="sLO-7b-vXA" firstAttribute="top" secondItem="hQB-Fx-RRW" secondAttribute="top" constant="150" id="YLG-k7-M0W"/>
                             <constraint firstAttribute="trailing" secondItem="sLO-7b-vXA" secondAttribute="trailing" constant="16" id="ZU2-Jc-NeM"/>
