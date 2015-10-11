@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B336FBBE1BCA814400FC91CD /* Model_v1_to_v2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = B336FBBD1BCA814400FC91CD /* Model_v1_to_v2.xcmappingmodel */; };
 		B3DDBAA21B52B5220044ED54 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3DDBAA11B52B5220044ED54 /* AppDelegate.swift */; };
 		B3DDBAA41B52B5220044ED54 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3DDBAA31B52B5220044ED54 /* ViewController.swift */; };
 		B3DDBAA71B52B5220044ED54 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B3DDBAA51B52B5220044ED54 /* Main.storyboard */; };
@@ -43,6 +44,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B336FBBC1BCA7DFE00FC91CD /* ComicMemoModel_v2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ComicMemoModel_v2.xcdatamodel; sourceTree = "<group>"; };
+		B336FBBD1BCA814400FC91CD /* Model_v1_to_v2.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = Model_v1_to_v2.xcmappingmodel; sourceTree = "<group>"; };
 		B3C042711B719FD7004567DC /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Main.strings; sourceTree = "<group>"; };
 		B3C042721B719FD7004567DC /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		B3DDBA9C1B52B5220044ED54 /* ComicMemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ComicMemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -144,6 +147,7 @@
 				B3E8613B1B5A7ECD009306F8 /* DetailViewController.swift */,
 				B3DDBAA51B52B5220044ED54 /* Main.storyboard */,
 				B3EDF24C1B5E77D6008E71C8 /* ComicMemoModel.xcdatamodeld */,
+				B336FBBD1BCA814400FC91CD /* Model_v1_to_v2.xcmappingmodel */,
 				B3ED6BB41B5B9AA9005A4930 /* PlaceHolderTextView.swift */,
 				B3DDBAA81B52B5220044ED54 /* Images.xcassets */,
 				B3DDBAAA1B52B5220044ED54 /* LaunchScreen.xib */,
@@ -281,6 +285,7 @@
 				B3E411061B56AAB500A9F16B /* AddCountCustomButton.swift in Sources */,
 				B3ED6BB51B5B9AA9005A4930 /* PlaceHolderTextView.swift in Sources */,
 				B3EDF2811B5E99C0008E71C8 /* Entity.swift in Sources */,
+				B336FBBE1BCA814400FC91CD /* Model_v1_to_v2.xcmappingmodel in Sources */,
 				B3DDBAA41B52B5220044ED54 /* ViewController.swift in Sources */,
 				B3EDF24E1B5E77D6008E71C8 /* ComicMemoModel.xcdatamodeld in Sources */,
 				B3DDBAA21B52B5220044ED54 /* AppDelegate.swift in Sources */,
@@ -519,9 +524,10 @@
 		B3EDF24C1B5E77D6008E71C8 /* ComicMemoModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				B336FBBC1BCA7DFE00FC91CD /* ComicMemoModel_v2.xcdatamodel */,
 				B3EDF24D1B5E77D6008E71C8 /* ComicMemoModel.xcdatamodel */,
 			);
-			currentVersion = B3EDF24D1B5E77D6008E71C8 /* ComicMemoModel.xcdatamodel */;
+			currentVersion = B336FBBC1BCA7DFE00FC91CD /* ComicMemoModel_v2.xcdatamodel */;
 			path = ComicMemoModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

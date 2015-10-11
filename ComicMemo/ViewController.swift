@@ -33,6 +33,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
         // データ読み込み
         readMemoData()
+        // 文字色は初期化する
+        for myItem in myItems {
+            var item = myItem as! ComicMemo.Entity
+            item.numberOfColor = 0
+        }
         
         // AdMob広告の表示
         let bannerView:GADBannerView = GADBannerView(adSize: kGADAdSizeBanner)
@@ -81,6 +86,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         // 選択行に対するデータを取得
         var item = getItems(row!)
         item.addNum()
+        item.numberOfColor = 1
         
         // 現在の状態を保存する
         saveMemoData()
@@ -124,6 +130,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         // tag3(巻数)を取得
         var num = cell.viewWithTag(3) as! UILabel
         num.text = myItem.getNum().description
+        
+        // tag3(巻数)の文字色を変更
+        if myItem.getNumberOfColor() != 0 {
+            num.textColor = UIColor.redColor()
+        } else {
+            num.textColor = UIColor.blackColor()
+        }
         
         return cell
     }
@@ -409,7 +422,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         // TableViewを再読み込み.
         tableView.reloadData()
     }
-    
+        
     // CoreDataへレコードの書き込み
     func writeMemoData(order: Int, title: String, number: Int, memo: String) {
         let appDel: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate

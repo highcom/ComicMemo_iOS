@@ -15,6 +15,8 @@ class Entity: NSManagedObject {
     @NSManaged var titleName: String
     @NSManaged var numberOfBooks: NSNumber
     @NSManaged var memo: String
+    @NSManaged var numberOfColor: Boolean
+    @NSManaged var updateDate: NSDate
     
     // 表示順番を取得
     func getDisplayOrder() -> Int {
@@ -34,6 +36,16 @@ class Entity: NSManagedObject {
     // メモを取得
     func getMemo() -> String {
         return memo
+    }
+
+    // 巻数文字色を取得
+    func getNumberOfColor() -> Boolean? {
+        return numberOfColor
+    }
+    
+    // 更新日付を取得
+    func getUpdateDate() -> NSDate {
+        return updateDate
     }
     
     // 巻数を追加
