@@ -18,6 +18,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     var editRow: Int = 0
     var tableSearchText: String = ""
     var searchItems: NSMutableArray = []
+    var locale = NSLocale.currentLocale()
+    let dateFormatter = NSDateFormatter()
     
     // 画面遷移時の状態
     var state = STATE.ST_NONE
@@ -33,7 +35,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
         // 通知を受けた時に実行するメソッドを登録
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "foregroundUpdate:", name: ForegroundNotification, object: nil)
-        
+
+        // 日付表示フォーマットを指定
+        dateFormatter.locale = NSLocale(localeIdentifier: locale.description)
+        dateFormatter.dateFormat = "yyyy/MM/dd"
+
         // データ読み込み
         readMemoData()
         // 文字色は初期化する
@@ -107,6 +113,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         item.addNum()
         item.numberOfColor = 1
         
+        // 現在の日付を設定
+        item.updateDate = NSDate()
+        
         // 現在の状態を保存する
         saveMemoData()
 
@@ -155,6 +164,15 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             num.textColor = UIColor.redColor()
         } else {
             num.textColor = UIColor.blackColor()
+        }
+        
+        // tag5(更新日付)を取得
+        var updateDate = cell.viewWithTag(6) as! UILabel
+        var date:NSDate? = myItem.updateDate
+        if date == nil {
+            updateDate.text = ""
+        } else {
+            updateDate.text = dateFormatter.stringFromDate(date!)
         }
         
         return cell
@@ -455,6 +473,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         newData.titleName = title
         newData.numberOfBooks = number
         newData.memo = memo
+        newData.numberOfColor = 0
+        newData.updateDate = NSDate()
 
         // 作成したオブジェクトを保存
         var error: NSError? = nil
@@ -493,6 +513,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         editData.titleName = title
         editData.numberOfBooks = number
         editData.memo = memo
+        editData.numberOfColor = 0
+        editData.updateDate = NSDate()
 
         // 作成したオブジェクトを保存
         var error: NSError? = nil
