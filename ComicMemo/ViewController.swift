@@ -31,6 +31,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
 
+        // 通知を受けた時に実行するメソッドを登録
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "foregroundUpdate:", name: ForegroundNotification, object: nil)
+        
         // データ読み込み
         readMemoData()
         // 文字色は初期化する
@@ -48,6 +51,22 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let gadRequest:GADRequest = GADRequest()
         bannerView.loadRequest(gadRequest)
         self.view.addSubview(bannerView)
+    }
+
+    // フォアグラウントに来た時に文字色を初期化する
+    @objc
+    func foregroundUpdate(notification: NSNotification?) {
+        // 文字色は初期化する
+        for myItem in myItems {
+            var item = myItem as! ComicMemo.Entity
+            item.numberOfColor = 0
+        }
+        
+        // 現在の状態を保存する
+        saveMemoData()
+        
+        // TableViewを再読み込み.
+        tableView.reloadData()
     }
     
     // テーブルを追加する
