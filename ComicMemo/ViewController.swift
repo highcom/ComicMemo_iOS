@@ -44,8 +44,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         readMemoData()
         // 文字色は初期化する
         for myItem in myItems {
-            var item = myItem as! ComicMemo.Entity
-            item.numberOfColor = 0
+            let item = myItem as! ComicMemo.Entity
+            item.numberOfColor = false
         }
         
         // AdMob広告の表示
@@ -64,8 +64,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func foregroundUpdate(notification: NSNotification?) {
         // 文字色は初期化する
         for myItem in myItems {
-            var item = myItem as! ComicMemo.Entity
-            item.numberOfColor = 0
+            let item = myItem as! ComicMemo.Entity
+            item.numberOfColor = false
         }
         
         // 現在の状態を保存する
@@ -97,7 +97,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     // 巻数追加ボタン
     @IBAction func tapNumAdd(sender: AnyObject) {
         // タップされたボタンのtableviewの選択行を取得
-        var btn = sender as! UIButton
+        let btn = sender as! UIButton
         var cell: UITableViewCell! = nil
         if (UIDevice.currentDevice().systemVersion as NSString).floatValue >= 8.0 {
             // iOS8の場合
@@ -106,12 +106,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             // iOS7の場合
             cell = btn.superview?.superview?.superview as! UITableViewCell
         }
-        var row = tableView.indexPathForCell(cell)?.row
+        let row = tableView.indexPathForCell(cell)?.row
 
         // 選択行に対するデータを取得
-        var item = getItems(row!)
+        let item = getItems(row!)
         item.addNum()
-        item.numberOfColor = 1
+        item.numberOfColor = true
         
         // 現在の日付を設定
         item.updateDate = NSDate()
@@ -144,31 +144,31 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     // セルの設定
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCellWithIdentifier("memoCell") as! UITableViewCell
-        var myItem = getItems(indexPath.row)
+        let cell = tableView.dequeueReusableCellWithIdentifier("memoCell")! as UITableViewCell
+        let myItem = getItems(indexPath.row)
         
         // tag1(タイトル)を取得
-        var titleText = cell.viewWithTag(1) as! UILabel
+        let titleText = cell.viewWithTag(1) as! UILabel
         titleText.text = myItem.getTitle()
         
         // tag2(メモ)を取得
-        var memoText = cell.viewWithTag(2) as! UILabel
+        let memoText = cell.viewWithTag(2) as! UILabel
         memoText.text = myItem.getMemo()
         
         // tag3(巻数)を取得
-        var num = cell.viewWithTag(3) as! UILabel
+        let num = cell.viewWithTag(3) as! UILabel
         num.text = myItem.getNum().description
         
         // tag3(巻数)の文字色を変更
-        if myItem.getNumberOfColor() != 0 {
+        if myItem.getNumberOfColor() != false {
             num.textColor = UIColor.redColor()
         } else {
             num.textColor = UIColor.blackColor()
         }
         
         // tag5(更新日付)を取得
-        var updateDate = cell.viewWithTag(6) as! UILabel
-        var date:NSDate? = myItem.updateDate
+        let updateDate = cell.viewWithTag(6) as! UILabel
+        let date:NSDate? = myItem.updateDate
         if date == nil {
             updateDate.text = ""
         } else {
@@ -291,7 +291,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         } else if sender.state == UIGestureRecognizerState.Began  {
             // 長押しされた場合の処理
             let selectItems = getItems(indexPath!.row) as ComicMemo.Entity
-            if objc_getClass("UIAlertController") != nil {
+            if #available(iOS 8.0, *) {
                 // iOS8の場合はUIAlertControllerを使う
                 let alertController = UIAlertController()
                 let firstAction = UIAlertAction(title: "コピー", style: .Default) {
@@ -434,20 +434,20 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     @IBAction func doneButton(segue: UIStoryboardSegue) {
         let detailData = segue.sourceViewController as! DetailViewController
         // 詳細画面の入力データを受け取る
-        var titleName = detailData.titleField.text
+        let titleName = detailData.titleField.text
         var numberOfBooks = 0;
         if detailData.numberOfBooksField.text != "" {
-            numberOfBooks = Int(detailData.numberOfBooksField.text)!
+            numberOfBooks = Int(detailData.numberOfBooksField.text!)!
         }
-        var memo = detailData.memoTextView.text
+        let memo = detailData.memoTextView.text
         
         // infoボタンを押されて編集の場合はレコードを更新にするよう処理を分ける
         if state == STATE.ST_ADD {
             // 詳細画面で入力したデータを追加
-            writeMemoData(myItems.count, title: titleName, number: numberOfBooks, memo: memo)
+            writeMemoData(myItems.count, title: titleName!, number: numberOfBooks, memo: memo)
         } else if state == STATE.ST_EDIT {
             // 詳細画面で入力したデータで更新
-            updateMemoData(titleName, number: numberOfBooks, memo: memo)
+            updateMemoData(titleName!, number: numberOfBooks, memo: memo)
         } else {
             NSLog("state err!")
         }
@@ -468,19 +468,19 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let myEntity: NSEntityDescription! = NSEntityDescription.entityForName("Entity", inManagedObjectContext: myContext)
         
         // オブジェクトを新規作成
-        var newData = Entity(entity: myEntity, insertIntoManagedObjectContext: myContext)
+        let newData = Entity(entity: myEntity, insertIntoManagedObjectContext: myContext)
         newData.displayOrder = order
         newData.titleName = title
         newData.numberOfBooks = number
         newData.memo = memo
-        newData.numberOfColor = 0
+        newData.numberOfColor = false
         newData.updateDate = NSDate()
 
         // 作成したオブジェクトを保存
         var error: NSError? = nil
         do {
             try myContext.save()
-        } catch var error1 as NSError {
+        } catch let error1 as NSError {
             error = error1
             NSLog("writeMemoData err![\(error)]")
             abort()
@@ -512,18 +512,18 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let appDel: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let myContext: NSManagedObjectContext = appDel.managedObjectContext!
         
-        var editData = getItems(editRow)
+        let editData = getItems(editRow)
         editData.titleName = title
         editData.numberOfBooks = number
         editData.memo = memo
-        editData.numberOfColor = 0
+        editData.numberOfColor = false
         editData.updateDate = NSDate()
 
         // 作成したオブジェクトを保存
         var error: NSError? = nil
         do {
             try myContext.save()
-        } catch var error1 as NSError {
+        } catch let error1 as NSError {
             error = error1
             NSLog("updateMemoData err![\(error)]")
             abort()

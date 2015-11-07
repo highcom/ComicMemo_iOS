@@ -59,7 +59,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate, GADBannerView
         // 文字数最大
         let maxLength: Int = 4
         // 入力済みの文字と入力された文字を合わせて取得
-        var str = textField.text + string
+        let str = textField.text! + string
 
         // 文字数がmaxLength以下かつ数値ならtrueを返す
         if "\(str)".characters.count < maxLength {
