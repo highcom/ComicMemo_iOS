@@ -15,7 +15,7 @@ class Entity: NSManagedObject {
     @NSManaged var titleName: String
     @NSManaged var numberOfBooks: NSNumber
     @NSManaged var memo: String
-    @NSManaged var numberOfColor: Boolean
+    @NSManaged var numberOfColor: DarwinBoolean
     @NSManaged var updateDate: NSDate
     
     // 表示順番を取得
@@ -39,7 +39,7 @@ class Entity: NSManagedObject {
     }
 
     // 巻数文字色を取得
-    func getNumberOfColor() -> Boolean? {
+    func getNumberOfColor() -> DarwinBoolean? {
         return numberOfColor
     }
     
@@ -52,7 +52,7 @@ class Entity: NSManagedObject {
     func addNum() {
         // 巻数の上限を999とする
         if numberOfBooks.integerValue < 999 {
-            var num: NSNumber = numberOfBooks.integerValue + 1
+            let num: NSNumber = numberOfBooks.integerValue + 1
             numberOfBooks = num
         }
     }

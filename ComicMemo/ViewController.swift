@@ -192,7 +192,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             
             // 削除したセル以降のdisplayOrderをつめる
             for var i = indexPath.row; i < myItems.count; i++ {
-                var buffItem = myItems[i] as! ComicMemo.Entity
+                let buffItem = myItems[i] as! ComicMemo.Entity
                 buffItem.displayOrder = buffItem.displayOrder.integerValue - 1
             }
  
@@ -222,8 +222,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         // 編集時にテーブルのデータを詳細画面に渡す
         if segue.identifier == "detailViewSegue" && state == STATE.ST_EDIT {
             // 選択したテーブルのデータを詳細画面に渡す
-            var editData = getItems(editRow)
-            var newVC = segue.destinationViewController as! DetailViewController
+            let editData = getItems(editRow)
+            let newVC = segue.destinationViewController as! DetailViewController
             newVC.titleName = editData.titleName
             newVC.numberOfBooks = editData.numberOfBooks.integerValue
             newVC.memo = editData.memo
@@ -233,8 +233,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     // 並べ替えをできるようにする
     func tableView(tableView: UITableView, moveRowAtIndexPath sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath) {
         // 並べ替えたら、その順番でCoreDataに保存する
-        var srcIndex = sourceIndexPath.row
-        var desIndex = destinationIndexPath.row
+        let srcIndex = sourceIndexPath.row
+        let desIndex = destinationIndexPath.row
         var minIndex = 0
         var maxIndex = 0
         var isMoveDir = false
@@ -290,7 +290,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             // 長押し位置に対する行数が取得できなければ何もしない
         } else if sender.state == UIGestureRecognizerState.Began  {
             // 長押しされた場合の処理
-            var selectItems = getItems(indexPath!.row) as ComicMemo.Entity
+            let selectItems = getItems(indexPath!.row) as ComicMemo.Entity
             if objc_getClass("UIAlertController") != nil {
                 // iOS8の場合はUIAlertControllerを使う
                 let alertController = UIAlertController()
@@ -318,7 +318,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 presentViewController(alertController, animated: true, completion: nil)
             } else {
                 // iOS7以前の場合はUIAlertViewを使う
-                var alertView = UIAlertView(title: selectItems.titleName, message: "", delegate: self, cancelButtonTitle: "Cancel", otherButtonTitles: "コピー", "Safariで検索")
+                let alertView = UIAlertView(title: selectItems.titleName, message: "", delegate: self, cancelButtonTitle: "Cancel", otherButtonTitles: "コピー", "Safariで検索")
                 alertView.show()
             }
         }
@@ -339,14 +339,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     // [アラート]ペーストボードに文字列をコピーする
     func copyPasteBoard(text: String) {
-        var pasteBoard = UIPasteboard.generalPasteboard()
+        let pasteBoard = UIPasteboard.generalPasteboard()
         pasteBoard.string = text
     }
     
     // [アラート]Safariで文字列を検索する
     func searchSafari(text: String) {
         let encodeText = text.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())
-        var searchText = "https://www.google.co.jp/#q=" + encodeText!
+        let searchText = "https://www.google.co.jp/#q=" + encodeText!
         let url = NSURL(string: searchText)
         if UIApplication.sharedApplication().canOpenURL(url!){
             UIApplication.sharedApplication().openURL(url!)
@@ -365,7 +365,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         // キャンセルボタンを有効化する
         searchBar.showsCancelButton = true
         // AutoResizeを無効化する
-        searchBar.setTranslatesAutoresizingMaskIntoConstraints(true)
+        searchBar.translatesAutoresizingMaskIntoConstraints = true
     }
     
     // 検索バー入力イベント
@@ -407,7 +407,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         // 検索バーを元のサイズに戻す
         searchBar.frame = CGRectMake(searchBar.frame.origin.x, searchBar.frame.origin.y, searchBar.frame.width - 60, searchBar.frame.height)
         // AutoResizeを有効化する
-        searchBar.setTranslatesAutoresizingMaskIntoConstraints(false)
+        searchBar.translatesAutoresizingMaskIntoConstraints = false
     }
     
     // 検索状態に応じてテーブルを返却する
@@ -437,7 +437,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         var titleName = detailData.titleField.text
         var numberOfBooks = 0;
         if detailData.numberOfBooksField.text != "" {
-            numberOfBooks = detailData.numberOfBooksField.text.toInt()!
+            numberOfBooks = Int(detailData.numberOfBooksField.text)!
         }
         var memo = detailData.memoTextView.text
         
@@ -478,7 +478,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
         // 作成したオブジェクトを保存
         var error: NSError? = nil
-        if !myContext.save(&error) {
+        do {
+            try myContext.save()
+        } catch var error1 as NSError {
+            error = error1
             NSLog("writeMemoData err![\(error)]")
             abort()
         }
@@ -492,7 +495,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let myRequest: NSFetchRequest = NSFetchRequest(entityName: "Entity")
         myRequest.returnsObjectsAsFaults = false
         
-        var myResults: NSArray! = myContext.executeFetchRequest(myRequest, error: nil)
+        let myResults: NSArray! = try? myContext.executeFetchRequest(myRequest)
         
         myItems = []
         for myData in myResults {
@@ -518,7 +521,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
         // 作成したオブジェクトを保存
         var error: NSError? = nil
-        if !myContext.save(&error) {
+        do {
+            try myContext.save()
+        } catch var error1 as NSError {
+            error = error1
             NSLog("updateMemoData err![\(error)]")
             abort()
         }
@@ -537,14 +543,16 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         var error: NSError? = nil;
         // フェッチリクエストの実行
         searchItems = []
-        if var results = myContext.executeFetchRequest(myRequest, error: &error) {
+        do {
+            let results = try myContext.executeFetchRequest(myRequest)
             for managedObject in results {
                 searchItems.addObject(managedObject as! ComicMemo.Entity)
             }
             // displayOrderの順番で表示
             let sort_descriptor:NSSortDescriptor = NSSortDescriptor(key:"displayOrder", ascending:true)
             searchItems.sortUsingDescriptors([sort_descriptor])
-        } else {
+        } catch let error1 as NSError {
+            error = error1
             NSLog("searchMemoData err![\(error)]")
             abort()
         }
@@ -557,7 +565,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
         // 作成したオブジェクトを保存
         var error: NSError? = nil
-        if !myContext.save(&error) {
+        do {
+            try myContext.save()
+        } catch let error1 as NSError {
+            error = error1
             NSLog("updateMemoData err![\(error)]")
             abort()
         }
@@ -573,7 +584,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
         // 作成したオブジェクトを保存
         var error: NSError? = nil
-        if !myContext.save(&error) {
+        do {
+            try myContext.save()
+        } catch let error1 as NSError {
+            error = error1
             NSLog("deleteMemoData err![\(error)]")
             abort()
         }

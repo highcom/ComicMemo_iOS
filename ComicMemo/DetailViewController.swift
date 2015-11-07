@@ -39,7 +39,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate, GADBannerView
         
         // メモが何も入力されていない場合はプレースホルダーを表示
         memoTextView.text = memo
-        if count(memoTextView.text) == 0 {
+        if memoTextView.text.characters.count == 0 {
             memoTextView.placeHolder = "メモを入力"
         }
         
@@ -62,8 +62,8 @@ class DetailViewController: UIViewController, UITextFieldDelegate, GADBannerView
         var str = textField.text + string
 
         // 文字数がmaxLength以下かつ数値ならtrueを返す
-        if count("\(str)") < maxLength {
-            if str.toInt() != nil {
+        if "\(str)".characters.count < maxLength {
+            if Int(str) != nil {
                 return true
             }
         }

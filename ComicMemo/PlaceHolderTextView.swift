@@ -14,7 +14,7 @@ public class PlaceHolderTextView: UITextView {
     var placeHolderColor:UIColor      = UIColor.lightGrayColor()
     var placeHolder:NSString          = ""
     
-    required public init(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
@@ -63,7 +63,7 @@ public class PlaceHolderTextView: UITextView {
             return
         }
         
-        if(count(self.text) == 0) {
+        if(self.text.characters.count == 0) {
             self.viewWithTag(999)?.alpha = 1
         }else{
             self.viewWithTag(999)?.alpha = 0
