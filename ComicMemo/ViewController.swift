@@ -184,18 +184,24 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         // 削除のとき.
         if editingStyle == UITableViewCellEditingStyle.Delete {
             
+            // 削除するセルのdisplayOrderを保持する
+            let delValue = getItems(indexPath.row).displayOrder.integerValue
+
             // CoreDataからレコードをを削除する
-            deleteMemoData(myItems[indexPath.row] as! NSManagedObject)
+            deleteMemoData(getItems(indexPath.row) as NSManagedObject)
             
             // 指定されたセルのオブジェクトをmyItemsから削除する.
-            myItems.removeObjectAtIndex(indexPath.row)
+            myItems.removeObjectAtIndex(delValue)
+            if tableSearchText != "" {
+                searchItems.removeObjectAtIndex(indexPath.row)
+            }
             
             // 削除したセル以降のdisplayOrderをつめる
-            for var i = indexPath.row; i < myItems.count; i++ {
+            for var i = delValue; i < myItems.count; i++ {
                 let buffItem = myItems[i] as! ComicMemo.Entity
                 buffItem.displayOrder = buffItem.displayOrder.integerValue - 1
             }
- 
+            
             // TableViewを再読み込み.
             tableView.reloadData()
             
